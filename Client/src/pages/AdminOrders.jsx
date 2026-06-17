@@ -337,13 +337,17 @@ async () => {
 };
 
   useEffect(() => {
-  fetchOrders();
+
+  fetchData();
 
   const interval = setInterval(() => {
-    fetchOrders();
+
+    fetchData();
+
   }, 5000);
 
   return () => clearInterval(interval);
+
 }, []);
 
   const markPaid =

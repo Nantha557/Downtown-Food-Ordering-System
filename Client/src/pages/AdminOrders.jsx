@@ -337,12 +337,14 @@ async () => {
 };
 
   useEffect(() => {
+  fetchOrders();
 
-    fetchData();
+  const interval = setInterval(() => {
+    fetchOrders();
+  }, 5000);
 
-    
-
-  }, []);
+  return () => clearInterval(interval);
+}, []);
 
   const markPaid =
     async (id) => {
@@ -637,25 +639,44 @@ Downtown Business Hotel
 
             );
 
-          const roomStatus =
-  roomOrders.every(
+         const roomStatus =
+
+  roomOrders.some(
     order =>
-      order.status === "Paid"
+      order.status ===
+      "Pending"
   )
-    ? "Paid"
-    : roomOrders.every(
+    ? "Pending"
+
+    : roomOrders.some(
         order =>
           order.status ===
-          "Delivered"
+          "Preparing"
       )
-    ? "Delivered"
+    ? "Preparing"
+
     : roomOrders.some(
         order =>
           order.status ===
           "Ready"
       )
     ? "Ready"
-    : "Preparing";
+
+    : roomOrders.every(
+        order =>
+          order.status ===
+          "Delivered"
+      )
+    ? "Delivered"
+
+    : roomOrders.every(
+        order =>
+          order.status ===
+          "Paid"
+      )
+    ? "Paid"
+
+    : "Pending";
 
           const allDelivered =
             roomOrders.every(

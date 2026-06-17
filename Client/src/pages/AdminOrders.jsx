@@ -896,11 +896,10 @@ Downtown Business Hotel
         {
 
           new Date(
-
-            roomOrders[0]
-              .createdAt
-
-          ).toLocaleDateString()
+  roomOrders[0].createdAt
+).toLocaleDateString(
+  "en-GB"
+)
 
         }
 

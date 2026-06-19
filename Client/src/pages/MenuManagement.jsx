@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import InstallButton from "../components/InstallButton";
 
 function MenuManagement() {
 
@@ -75,6 +76,14 @@ function MenuManagement() {
     }
 
   };
+
+  const logout = () => {
+
+  localStorage.clear();
+
+  window.location.href = "/login";
+
+};
 
   const toggleAvailability =
   async (id) => {
@@ -233,23 +242,76 @@ const updateFood = async () => {
 
         {/* HEADER */}
 
-        <div className="mb-8">
+        <div className="
+flex
+justify-between
+items-start
+mb-8
+">
 
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-800">
+  <div>
 
-            Menu Management
+    <h1 className="
+    text-3xl
+    md:text-5xl
+    font-bold
+    text-gray-800
+    ">
 
-          </h1>
+      Menu Management
 
-          <InstallButton />
+    </h1>
 
-          <p className="text-gray-500 mt-2">
+    <p className="text-gray-500 mt-2">
 
-            Manage hotel food items and availability
+      Logged in as:
+      <span className="font-semibold ml-1">
 
-          </p>
+        👤{localStorage.getItem("username")}
 
-        </div>
+      </span>
+
+    </p>
+
+    <p className="text-gray-500">
+
+      Manage hotel food items and availability
+
+    </p>
+
+  </div>
+
+  <div className="
+  flex
+  gap-3
+  ">
+
+    <InstallButton />
+
+    <button
+
+      onClick={logout}
+
+      className="
+      bg-red-500
+      hover:bg-red-600
+      text-white
+      px-4
+      py-2
+      rounded-xl
+      shadow
+      font-semibold
+      "
+
+    >
+
+      🚪 Logout
+
+    </button>
+
+  </div>
+
+</div>
 
         {/* ADD FOOD */}
 

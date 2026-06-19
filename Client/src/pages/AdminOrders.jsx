@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import InstallButton from "../components/InstallButton";
 
 function AdminOrders() {
 
@@ -82,7 +83,13 @@ const activeOrders =
       order.status !==
       "Paid"
   );
+const logout = () => {
 
+  localStorage.clear();
+
+  window.location.href = "/login";
+
+};
 const handleCreateUser =
 async () => {
 
@@ -448,22 +455,41 @@ Downtown Business Hotel
 
 </div>
 
-<div
-  onClick={() => {
-    fetchUsers();
-    setShowUsers(true);
-  }}
-  className="
-  cursor-pointer
-  bg-white
-  px-4 py-2
-  rounded-xl
-  shadow
-  hover:shadow-lg
-  transition
-  "
->
-  👥 Users
+<div className="flex gap-3">
+
+  <div
+    onClick={() => {
+      fetchUsers();
+      setShowUsers(true);
+    }}
+    className="
+    cursor-pointer
+    bg-white
+    px-4 py-2
+    rounded-xl
+    shadow
+    hover:shadow-lg
+    transition
+    "
+  >
+    👥 Users
+  </div>
+
+  <button
+    onClick={logout}
+    className="
+    bg-red-500
+    hover:bg-red-600
+    text-white
+    px-4 py-2
+    rounded-xl
+    shadow
+    transition
+    "
+  >
+    Logout
+  </button>
+
 </div>
 
 </div>

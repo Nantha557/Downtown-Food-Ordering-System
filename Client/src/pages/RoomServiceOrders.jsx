@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import API from "../services/api";
+import InstallButton from "../components/InstallButton";
 
 function RoomServiceOrders() {
 
@@ -21,6 +22,14 @@ const notificationSound =
       "/notification.wav"
     )
   );
+
+  const logout = () => {
+
+  localStorage.clear();
+
+  window.location.href = "/login";
+
+};
 
   const fetchOrders =
     async () => {
@@ -131,13 +140,60 @@ setOrders(readyOrders);
 
     <div className="min-h-screen bg-gray-100 p-4 md:p-8">
 
-      <h1 className="text-4xl font-bold mb-8">
+      <div className="
+flex
+justify-between
+items-start
+mb-8
+">
 
-        Room Service Dashboard
+  <div>
 
-      </h1>
+    <h1 className="text-4xl font-bold">
 
-      <InstallButton />
+      Room Service Dashboard
+
+    </h1>
+
+    <p className="text-gray-500 mt-2">
+
+      👤 {localStorage.getItem("username")}
+
+    </p>
+
+  </div>
+
+  <div className="
+  flex
+  gap-3
+  ">
+
+    <InstallButton />
+
+    <button
+
+      onClick={logout}
+
+      className="
+      bg-red-500
+      hover:bg-red-600
+      text-white
+      px-4
+      py-2
+      rounded-xl
+      shadow
+      font-semibold
+      "
+
+    >
+
+      🚪 Logout
+
+    </button>
+
+  </div>
+
+</div>
 
       <div className="space-y-5">
 

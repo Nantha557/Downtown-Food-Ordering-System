@@ -124,23 +124,60 @@ setOrders(activeOrders);
 
       {/* HEADER */}
 
-      <div className="mb-8">
+ <div className="
+flex
+justify-between
+items-start
+mb-8
+">
 
-        <h1 className="text-4xl font-bold">
+  <div>
 
-          Kitchen Dashboard
+    <h1 className="text-4xl font-bold">
+      Kitchen Dashboard
+    </h1>
 
-        </h1>
+    <p className="text-gray-500 mt-2">
+  Kitchen Staff:
+  👤{localStorage.getItem("username")}
+</p>
 
-        <InstallButton />
+    <p className="text-gray-500 mt-2">
+      Live Room Service Orders
+    </p>
 
-        <p className="text-gray-500 mt-2">
+  </div>
 
-          Live Room Service Orders
+  <div className="
+  flex
+  gap-3
+  ">
 
-        </p>
+    <InstallButton />
 
-      </div>
+    <button
+
+      onClick={logout}
+
+      className="
+      bg-red-500
+      hover:bg-red-600
+      text-white
+      px-4 py-2
+      rounded-xl
+      font-semibold
+      shadow
+      "
+
+    >
+
+      🚪 Logout
+
+    </button>
+
+  </div>
+
+</div>
 
       {/* STATS */}
 
@@ -350,23 +387,7 @@ ${
         )}
 
       </div>
-      <button
-  onClick={() => {
-    const audio =
-      new Audio(
-        "/notification.wav"
-      );
-
-    audio.play();
-  }}
->
-  Test Sound
-</button>
-<div>
-<button onClick={logout}>
-  Logout
-</button>
-</div>
+    
     </div>
 
   );

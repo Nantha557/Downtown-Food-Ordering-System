@@ -358,11 +358,11 @@ ${
 >
   Test Sound
 </button>
-
+<div>
 <button onClick={logout}>
   Logout
 </button>
-
+</div>
     </div>
 
   );

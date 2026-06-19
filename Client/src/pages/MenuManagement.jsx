@@ -241,6 +241,8 @@ const updateFood = async () => {
 
           </h1>
 
+          <InstallButton />
+
           <p className="text-gray-500 mt-2">
 
             Manage hotel food items and availability

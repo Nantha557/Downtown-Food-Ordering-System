@@ -137,6 +137,8 @@ setOrders(readyOrders);
 
       </h1>
 
+      <InstallButton />
+
       <div className="space-y-5">
 
         {orders.length === 0 && (

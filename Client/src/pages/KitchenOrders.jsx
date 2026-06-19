@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import API from "../services/api";
+import InstallButton
+from "../components/InstallButton";
 
 function ManagerOrders() {
 
@@ -129,6 +131,8 @@ setOrders(activeOrders);
           Kitchen Dashboard
 
         </h1>
+
+        <InstallButton />
 
         <p className="text-gray-500 mt-2">
 

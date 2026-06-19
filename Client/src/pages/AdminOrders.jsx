@@ -438,6 +438,8 @@ Downtown Business Hotel
 
 </h1>
 
+<InstallButton />
+
 <p className="text-gray-500 font-bold">
 
  Food Admin Dashboard

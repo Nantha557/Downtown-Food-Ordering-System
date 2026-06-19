@@ -12,6 +12,7 @@ import ManagerOrders from "./pages/KitchenOrders";
 import RoomServiceOrders from "./pages/RoomServiceOrders";
 import AdminOrders from "./pages/AdminOrders";
 import Login from "./pages/Login";
+import AutoRedirect from "./components/AutoRedirect";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -24,11 +25,10 @@ function App() {
       <Routes>
 
         {/* LOGIN */}
-
-        <Route
-          path="/"
-          element={<Login />}
-        />
+<Route
+  path="/"
+  element={<AutoRedirect />}
+/>
 
         <Route
           path="/login"

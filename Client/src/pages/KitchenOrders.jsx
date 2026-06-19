@@ -15,6 +15,14 @@ function ManagerOrders() {
 
 const previousCount = useRef(0);
 
+const logout = () => {
+
+  localStorage.clear();
+
+  window.location.href = "/login";
+
+};
+
 const notificationSound = useRef(
   new Audio("/notification.wav")
 );
@@ -349,6 +357,10 @@ ${
   }}
 >
   Test Sound
+</button>
+
+<button onClick={logout}>
+  Logout
 </button>
 
     </div>

@@ -10,6 +10,8 @@ const userRoutes =
 require(
   "./routes/userRoutes"
 );
+const fcmRoutes =
+require("./routes/fcmRoutes");
 
 const connectDB =
   require("./config/db");
@@ -43,6 +45,10 @@ app.use(
 app.use(
   "/api/orders",
   orderRoutes
+);
+app.use(
+  "/api/fcm",
+  fcmRoutes
 );
 
 app.get("/", (req, res) => {

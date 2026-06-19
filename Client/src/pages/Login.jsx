@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import {
+  requestNotificationPermission
+}
+from "../firebase-messaging";
 
 function Login() {
 
@@ -61,6 +65,10 @@ function Login() {
         response.data.username
 
       );
+      const token =
+  await requestNotificationPermission();
+
+console.log(token);
 
       if (
         response.data.role ===

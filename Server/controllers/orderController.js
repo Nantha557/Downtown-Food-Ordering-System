@@ -9,48 +9,56 @@ require(
   "../utils/sendNotification"
 );
 
-const createOrder =
-  async (req, res) => {
+const createOrder = async (req, res) => {
 
-    try {
+  try {
 
-      const order =
-        await Order.create(
-          req.body
-        );
-        const kitchenToken =
-await FcmToken.findOne({
+    console.log("ORDER CREATED");
 
-  role:"Kitchen",
+    const order =
+      await Order.create(req.body);
 
-});
-
-if(kitchenToken){
-
-  await sendNotification(
-
-    kitchenToken.token,
-
-    "New Food Order 🍽️",
-
-    `Room ${order.roomNumber} placed an order`
-
-  );
-
-}
-
-      res.status(201).json(
-        order
-      );
-
-    } catch (error) {
-
-      res.status(500).json({
-        message:
-          "Failed to place order",
+    const kitchenToken =
+      await FcmToken.findOne({
+        role: "Kitchen",
       });
 
+    console.log(
+      "Kitchen Token:",
+      kitchenToken
+    );
+
+    if (kitchenToken) {
+
+      console.log(
+        "Sending notification..."
+      );
+
+      await sendNotification(
+        kitchenToken.token,
+        "New Food Order 🍽️",
+        `Room ${order.roomNumber} placed an order`
+      );
+
+    } else {
+
+      console.log(
+        "NO KITCHEN TOKEN FOUND"
+      );
+
     }
+
+    res.status(201).json(order);
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      message: "Failed to place order",
+    });
+
+  }
 
 };
 

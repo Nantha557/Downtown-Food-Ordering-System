@@ -10,6 +10,10 @@ async (
 
   try {
 
+    console.log(
+  "sendNotification called"
+);
+
     await admin
       .messaging()
       .send({

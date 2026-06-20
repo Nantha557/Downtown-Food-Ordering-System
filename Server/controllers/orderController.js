@@ -1,6 +1,14 @@
 const Order =
   require("../models/Order");
 
+  const FcmToken =
+require("../models/FcmToken");
+
+const sendNotification =
+require(
+  "../utils/sendNotification"
+);
+
 const createOrder =
   async (req, res) => {
 
@@ -10,6 +18,26 @@ const createOrder =
         await Order.create(
           req.body
         );
+        const kitchenToken =
+await FcmToken.findOne({
+
+  role:"Kitchen",
+
+});
+
+if(kitchenToken){
+
+  await sendNotification(
+
+    kitchenToken.token,
+
+    "New Food Order 🍽️",
+
+    `Room ${order.roomNumber} placed an order`
+
+  );
+
+}
 
       res.status(201).json(
         order

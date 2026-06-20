@@ -16,3 +16,4 @@ service-account.json
 credentials.json
 
 *.xlsx
+Server/config/serviceAccountKey.json

@@ -166,20 +166,40 @@ useRef(
     );
 
     const filteredRooms =
-  Object.entries(
-    groupedRooms
-  ).filter(
+Object.entries(
+  groupedRooms
+)
+.sort(
 
-    ([room]) =>
+  ([, roomA], [, roomB]) =>
 
-      room
-        .toString()
-        .toLowerCase()
-        .includes(
-          roomSearch.toLowerCase()
-        )
+    new Date(
+      roomB[
+        roomB.length - 1
+      ].createdAt
+    )
 
-  );
+    -
+
+    new Date(
+      roomA[
+        roomA.length - 1
+      ].createdAt
+    )
+
+)
+.filter(
+
+  ([room]) =>
+
+    room
+      .toString()
+      .toLowerCase()
+      .includes(
+        roomSearch.toLowerCase()
+      )
+
+);
 
   const handleUpdateUser =
   async () => {

@@ -682,8 +682,12 @@ fetchData();
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
 
           <div className="bg-white p-5 rounded-2xl shadow">
+            <h1 className="text-red-500">
+  VERSION 999
+</h1>
 
             <p className="text-gray-500">
+              
 
               Active Rooms
 
@@ -856,7 +860,7 @@ fetchData();
 
     roomOrders.some(
       order =>
-        order.status !== "Printed"
+        order.status === "Pending"
     )
       ? "Pending"
 

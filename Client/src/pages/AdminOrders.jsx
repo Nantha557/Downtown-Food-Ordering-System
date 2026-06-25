@@ -9,9 +9,6 @@ from "../assets/alarm.wav";
     const [orders, setOrders] =
       useState([]);
 
-    const [revenue, setRevenue] =
-      useState(0);
-
       const alertedRooms =
 useRef([]);
 
@@ -655,6 +652,8 @@ orders.filter(
     "Printed"
 
 ).length;
+  const totalOrders =
+  orders.length;
       
     return (
 
@@ -756,16 +755,12 @@ orders.filter(
           <div className="bg-white p-5 rounded-2xl shadow">
 
             <p className="text-gray-500">
+  Total Orders
+</p>
 
-              Revenue
-
-            </p>
-
-            <h2 className="text-3xl font-bold text-green-600">
-
-              ₹{revenue}
-
-            </h2>
+<h2 className="text-3xl font-bold text-green-600">
+  {totalOrders}
+</h2>
 
           </div>
 

@@ -633,6 +633,24 @@ fetchData();
   win.print();
 
 };
+
+const pendingKOT =
+orders.filter(
+
+  order =>
+    order.status ===
+    "Pending"
+
+).length;
+
+const printedKOT =
+orders.filter(
+
+  order =>
+    order.status ===
+    "Printed"
+
+).length;
       
     return (
 
@@ -751,25 +769,16 @@ fetchData();
 
             <p className="text-gray-500">
 
-              Pending Payments
+  Pending KOT
 
-            </p>
+</p>
 
-            <h2 className="text-3xl font-bold text-red-500">
+<h2 className="text-3xl font-bold text-red-600">
 
-              {
+  {pendingKOT}
 
-                orders.filter(
+</h2>
 
-                  (o) =>
-                    o.status ===
-                    "Delivered"
-
-                ).length
-
-              }
-
-            </h2>
 
           </div>
 
@@ -777,9 +786,14 @@ fetchData();
 
             <p className="text-gray-500">
 
-              Paid Orders
+              Printed KOT
 
             </p>
+            <h2 className="text-3xl font-bold text-blue-600">
+
+  {printedKOT}
+
+</h2>
 
           </div>
 

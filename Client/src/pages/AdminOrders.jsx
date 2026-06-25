@@ -15,6 +15,16 @@ from "../assets/alarm.wav";
       const alertedRooms =
 useRef([]);
 
+const previousCount =
+useRef(0);
+
+const notificationAudio =
+useRef(
+  new Audio(
+    "/notification.wav"
+  )
+);
+
     const [selectedRoom, setSelectedRoom] =
     useState(null);
 
@@ -239,9 +249,30 @@ useRef([]);
             "/orders/revenue"
           );
 
-        setOrders(
-          activeResponse.data
-        );
+       const newOrders =
+  ordersRes.data;
+
+if (
+
+  previousCount.current !== 0 &&
+
+  newOrders.length >
+  previousCount.current
+
+) {
+
+  notificationAudio.current
+    .play()
+    .catch(() => {});
+
+}
+
+previousCount.current =
+  newOrders.length;
+
+setOrders(
+  newOrders
+);
 
         const pendingOrders =
   activeResponse.data.filter(

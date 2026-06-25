@@ -249,21 +249,27 @@ useRef(
             "/orders/revenue"
           );
 
-       const newOrders =
-  ordersRes.data;
+      const newOrders =
+  activeResponse.data;
 
 if (
 
-  previousCount.current !== 0 &&
+  previousCount.current > 0 &&
 
   newOrders.length >
   previousCount.current
 
 ) {
 
+  console.log(
+    "NEW ORDER ARRIVED 🔔"
+  );
+
   notificationAudio.current
     .play()
-    .catch(() => {});
+    .catch(err =>
+      console.log(err)
+    );
 
 }
 

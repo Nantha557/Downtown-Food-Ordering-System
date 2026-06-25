@@ -642,11 +642,9 @@ fetchData();
 
 const pendingKOT =
 orders.filter(
-
   order =>
-    order.status ===
-    "Pending"
-
+    order.status !== "Printed" &&
+    order.status !== "Paid"
 ).length;
 
 const printedKOT =
@@ -904,53 +902,23 @@ orders.filter(
 
               );
 
-          const roomStatus =
+const roomStatus =
 
-    roomOrders.some(
+  roomOrders.every(
+    order =>
+      order.status === "Paid"
+  )
+
+  ? "Paid"
+
+  : roomOrders.every(
       order =>
-        order.status === "Pending"
+        order.status === "Printed"
     )
-      ? "Pending"
 
-      : roomOrders.some(
-          order =>
-            order.status ===
-            "Preparing"
-        )
-      ? "Preparing"
+  ? "Printed"
 
-      : roomOrders.some(
-          order =>
-            order.status ===
-            "Ready"
-        )
-      ? "Ready"
-
-      : roomOrders.every(
-          order =>
-            order.status ===
-            "Delivered"
-        )
-      ? "Delivered"
-
-      : roomOrders.every(
-          order =>
-            order.status ===
-            "Paid"
-        )
-      ? "Paid"
-
-      : "Pending";
-
-            const allDelivered =
-              roomOrders.every(
-
-                (order) =>
-                  order.status ===
-                  "Delivered"
-
-              );
-
+  : "Pending";
             return (
 
               <tr
@@ -1025,11 +993,39 @@ orders.filter(
 
 </td>
 
-                <td className="p-3">
+                <td>
+
+  <span
+
+    className={`
+
+      px-3
+      py-1
+      rounded-xl
+
+      ${
+
+        roomStatus === "Pending"
+
+          ? "bg-red-100 text-red-600"
+
+          : roomStatus === "Printed"
+
+          ? "bg-blue-100 text-blue-600"
+
+          : "bg-green-100 text-green-600"
+
+      }
+
+    `}
+
+  >
 
     {roomStatus}
 
-  </td>
+  </span>
+
+</td>
 
                 <td className="p-3">
 

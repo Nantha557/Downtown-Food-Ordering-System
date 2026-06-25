@@ -1168,6 +1168,28 @@ fetchData();
 
   </p>
 
+  <button
+
+  onClick={() =>
+    printKOT(order)
+  }
+
+  className="
+  mt-3
+  bg-blue-600
+  hover:bg-blue-700
+  text-white
+  px-4
+  py-2
+  rounded-xl
+  "
+
+>
+
+🖨 Print KOT
+
+</button>
+
   </div>
 
   ))
@@ -1248,20 +1270,7 @@ fetchData();
   Complete Checkout
 
   </button>
-  <button
-  onClick={() =>
-    printKOT(order)
-  }
-  className="
-    bg-blue-600
-    text-white
-    px-4
-    py-2
-    rounded-lg
-  "
->
-  🖨 Print KOT
-</button>
+  
 
   </div>
 

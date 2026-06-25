@@ -652,6 +652,8 @@ orders.filter(
     "Printed"
 
 ).length;
+const totalOrders =
+  orders.length;
 
       
     return (

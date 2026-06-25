@@ -652,8 +652,7 @@ orders.filter(
     "Printed"
 
 ).length;
-  const totalOrders =
-  orders.length;
+
       
     return (
 
@@ -914,6 +913,13 @@ const roomStatus =
   ? "Printed"
 
   : "Pending";
+
+  const pendingOrders =
+  roomOrders.filter(
+    order =>
+      order.status ===
+      "Pending"
+  );
             return (
 
               <tr
@@ -946,48 +952,67 @@ const roomStatus =
 
                 <td className="p-3">
 
-  <span
+  {
 
-    className={`
+    roomStatus === "Printed" ||
 
-    px-3 py-1 rounded-lg font-semibold
+    roomStatus === "Paid"
 
-    ${
+    ? (
 
-     getOrderAge(
-  roomOrders[0].createdAt
-) >= 15
+      <span className="
+      bg-blue-100
+      text-blue-700
+      px-3 py-1
+      rounded-lg
+      font-semibold
+      ">
 
-? "bg-red-100 text-red-700"
+        Printed
 
-: getOrderAge(
-    roomOrders[0].createdAt
-  ) >= 10
+      </span>
 
-? "bg-yellow-100 text-yellow-700"
+    )
 
-: "bg-green-100 text-green-700"
+    : (
 
-    }
+      <span
+        className={`
+          px-3 py-1 rounded-lg font-semibold
 
-    `}
+          ${
+            getOrderAge(
+              pendingOrders[0].createdAt
+            ) >= 15
 
-  >
+            ? "bg-red-100 text-red-700"
 
-    {
+            : getOrderAge(
+                pendingOrders[0].createdAt
+              ) >= 10
 
-      getOrderAge(
-        roomOrders[0].createdAt
-      )
+            ? "bg-yellow-100 text-yellow-700"
 
-    }
+            : "bg-green-100 text-green-700"
+          }
+        `}
+      >
 
-    min
+        {
+          getOrderAge(
+            pendingOrders[0].createdAt
+          )
+        }
 
-  </span>
+        min
+
+      </span>
+
+    )
+
+  }
 
 </td>
-
                 <td>
 
   <span

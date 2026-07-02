@@ -4,11 +4,18 @@ const getFoods = async (req, res) => {
 
   try {
 
-    const now = new Date();
+    const indiaTime = new Date(
+  new Date().toLocaleString(
+    "en-US",
+    {
+      timeZone: "Asia/Kolkata",
+    }
+  )
+);
 
-    const currentTime =
-  now.getHours() * 60 +
-  now.getMinutes();
+const currentTime =
+  indiaTime.getHours() * 60 +
+  indiaTime.getMinutes();
 
     let filter = {};
 

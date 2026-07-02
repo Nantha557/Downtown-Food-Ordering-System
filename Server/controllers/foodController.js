@@ -4,14 +4,121 @@ const getFoods = async (req, res) => {
 
   try {
 
-    const foods = await Food.find();
+    const now = new Date();
+
+    const currentTime =
+  now.getHours() * 60 +
+  now.getMinutes();
+
+    let filter = {};
+
+    // Breakfast
+    if (
+      currentTime >= 420 &&
+      currentTime < 600
+    ) {
+
+      filter = {
+        breakfast: true,
+      };
+
+    }
+
+    // Lunch + All Time
+    else if (
+      currentTime >= 780 &&
+      currentTime < 900
+    ) {
+
+      filter = {
+        $or: [
+          { lunch: true },
+          { allTime: true },
+        ],
+      };
+
+    }
+
+    // Dinner + All Time
+    else if (
+      currentTime >= 1140 &&
+      currentTime < 1320
+    ) {
+
+      filter = {
+        $or: [
+          { dinner: true },
+          { allTime: true },
+        ],
+      };
+
+    }
+
+    // All Time only (11 AM - 1 PM)
+    else if (
+      currentTime >= 660 &&
+      currentTime < 780
+    ) {
+
+      filter = {
+        allTime: true,
+      };
+
+    }
+
+    // All Time only (3 PM - 7 PM)
+    else if (
+      currentTime >= 900 &&
+      currentTime < 1140
+    ) {
+
+      filter = {
+        allTime: true,
+      };
+
+    }
+
+    // All Time only (10 PM - 11 PM)
+    else if (
+      currentTime >= 1320 &&
+      currentTime < 1380
+    ) {
+
+      filter = {
+        allTime: true,
+      };
+
+    }
+
+    // Restaurant Closed
+    else {
+
+      return res.json([]);
+
+    }
+
+const foods = await Food.find({
+
+  available: true,
+
+  ...filter,
+
+});
+
 
     res.json(foods);
 
-  } catch (error) {
+  }
+
+  catch (error) {
+
+    console.log(error);
 
     res.status(500).json({
-      message: "Failed to fetch foods",
+
+      message:
+        "Failed to fetch foods",
+
     });
 
   }
@@ -118,10 +225,28 @@ const updateFood = async (req, res) => {
   }
 
 };
+const getAllFoods = async (req, res) => {
+
+  try {
+
+    const foods = await Food.find();
+
+    res.json(foods);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: "Failed to fetch foods",
+    });
+
+  }
+
+};
 module.exports = {
   getFoods,
   addFood,
   deleteFood,
   toggleAvailability,
   updateFood,
+  getAllFoods,
 };

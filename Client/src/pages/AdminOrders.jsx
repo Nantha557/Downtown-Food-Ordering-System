@@ -3,6 +3,8 @@
   import InstallButton from "../components/InstallButton";
   import alertSound
 from "../assets/alarm.wav";
+  import notificationSound from "../assets/notification.wav";
+
 
   function AdminOrders() {
 
@@ -15,12 +17,37 @@ useRef([]);
 const previousCount =
 useRef(0);
 
-const notificationAudio =
-useRef(
-  new Audio(
-    "/notification.wav"
-  )
+const notificationAudio = useRef(
+  new Audio(alertSound)
 );
+
+useEffect(() => {
+
+  const unlockAudio = () => {
+
+    notificationAudio.current
+      .play()
+      .then(() => {
+
+        notificationAudio.current.pause();
+        notificationAudio.current.currentTime = 0;
+
+      })
+      .catch(() => {});
+
+    document.removeEventListener(
+      "click",
+      unlockAudio
+    );
+
+  };
+
+  document.addEventListener(
+    "click",
+    unlockAudio
+  );
+
+}, []);
 
     const [selectedRoom, setSelectedRoom] =
     useState(null);
@@ -256,18 +283,11 @@ Object.entries(
             "/orders"
           );
 
-          console.log(
-    "ACTIVE RESPONSE:",
-    activeResponse.data
-  );
-
-        const revenueResponse =
-          await API.get(
-            "/orders/revenue"
-          );
 
       const newOrders =
   activeResponse.data;
+
+  
 
 if (
 
@@ -362,13 +382,6 @@ alertedRooms.current =
 
   );
 
-        console.log(
-          activeResponse.data
-        );
-
-        setRevenue(
-          revenueResponse.data.revenue
-        );
 
       } catch (error) {
 

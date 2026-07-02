@@ -64,9 +64,17 @@ async function seedFoods() {
             row["Price"]
           ),
 
-        image:
-          row["Image"] ||
-          "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+        breakfast:
+  row["Breakfast"] === true,
+
+lunch:
+  row["Lunch"] === true,
+
+dinner:
+  row["Dinner"] === true,
+
+allTime:
+  row["All Time"] === true,
 
         available: true,
 

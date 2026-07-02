@@ -24,43 +24,33 @@ function GuestMenu() {
 
   const [activeCategory,
   setActiveCategory] =
-  useState("Breakfast");
+  useState("");
 
   const categories = [
 
-    "Breakfast",
+  ...new Set(
 
-    "Soups Veg",
-    "Soups Non Veg",
+    foods.map(
+      (food) => food.category
+    )
 
-    "Tandoori Veg",
-    "Tandoori Non Veg",
+  ),
 
-    "Veg Starters",
-    "Non Veg Starters",
+];
+useEffect(() => {
 
-    "Egg Starters",
+  if (
+    categories.length > 0 &&
+    !activeCategory
+  ) {
 
-    "Acompaniments",
+    setActiveCategory(
+      categories[0]
+    );
 
-    "Indian Gravy Veg",
-    "Indian Gravy Non-Veg",
+  }
 
-    "Chinese Gravy Veg",
-    "Chinese Gravy Non Veg",
-
-    "Rice & Noodles Veg",
-    "Rice & Noodles Non Veg",
-
-    "Indian Breads",
-
-    "Desserts",
-
-    "Choice Lassi",
-
-    "Choice of Milkshakes",
-
-  ];
+}, [foods]);
   useEffect(() => {
 
   categoryRefs.current[
@@ -163,6 +153,7 @@ useEffect(() => {
     }
 
   };
+  
 
   const addToCart = (food) => {
 
@@ -271,6 +262,61 @@ const decreaseQuantity = (foodId) => {
       0
 
     );
+    if (foods.length === 0) {
+
+  return (
+
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+
+      <div className="bg-white rounded-3xl shadow-xl p-10 text-center max-w-lg">
+
+        <h1 className="text-4xl mb-4">
+          🍽️
+        </h1>
+
+        <h2 className="text-2xl font-bold">
+
+          Restaurant Closed
+
+        </h2>
+
+        <p className="text-gray-500 mt-3">
+
+          Room service is currently unavailable.
+
+        </p>
+
+        <div className="mt-6 text-left text-gray-700">
+
+          <p>
+            🌅 Breakfast :
+            7:00 AM - 10:00 AM
+          </p>
+
+          <p>
+            🍛 Lunch :
+            1:00 PM - 3:00 PM
+          </p>
+
+          <p>
+            🌙 Dinner :
+            7:00 PM - 10:00 PM
+          </p>
+
+          <p>
+            ☕ DT Café :
+            11:00 AM - 11:00 PM
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
+
+}
 
   return (
 
@@ -432,6 +478,8 @@ ${
 
       </div>
 
+      
+
       {/* MENU SECTIONS */}
 
       <div className="p-4">
@@ -452,6 +500,11 @@ ${
         .includes(
           search.toLowerCase()
         )
+        ||
+
+food.category
+  .toLowerCase()
+  .includes(search.toLowerCase())
 
   );
 
@@ -510,52 +563,31 @@ text-green-700
     key={food._id}
     className="
 bg-white
-rounded-3xl
+rounded-2xl
 shadow-sm
 
 p-4
 
 flex
-flex-col
-
-md:flex-row
-
-gap-4
-
 justify-between
+items-center
 
-md:items-center
 "
   >
 
-    <div className="flex gap-4">
-
-      <img
-  src={food.image}
-  alt={food.name}
-  onError={(e) => {
-    e.target.src =
-      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c";
-  }}
-  className="
-    w-20 h-20
-    md:w-24 md:h-24
-    rounded-2xl
-    object-cover
-  "
-/>
+    <div className="flex gap-1">
 
       <div>
 
-        <h3 className="font-bold text-lg">
+        <h3 className="text-lg font-semibold text-gray-800">
           {food.name}
         </h3>
 
-        <p className="text-gray-500">
+        <p className="text-sm text-gray-500">
           {food.type}
         </p>
 
-        <p className="font-bold text-green-600">
+        <p className="text-xl font-bold text-green-700 mt-1">
           ₹{food.price}
         </p>
 

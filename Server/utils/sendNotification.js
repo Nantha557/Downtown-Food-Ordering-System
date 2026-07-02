@@ -1,6 +1,20 @@
 const admin =
 require("../config/firebase");
 
+if (!admin) {
+
+  module.exports = async () => {
+
+    console.log(
+      "Firebase disabled. Notification skipped."
+    );
+
+  };
+
+  return;
+
+}
+
 const sendNotification =
 async (
   token,
@@ -9,10 +23,6 @@ async (
 ) => {
 
   try {
-
-    console.log(
-  "sendNotification called"
-);
 
     await admin
       .messaging()
@@ -27,15 +37,14 @@ async (
 
       });
 
-    console.log(
-      "Notification Sent"
-    );
-
   }
 
   catch(error){
 
-    console.log(error);
+    console.log(
+      "Notification Error:",
+      error
+    );
 
   }
 

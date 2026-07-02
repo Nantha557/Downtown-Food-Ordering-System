@@ -15,7 +15,17 @@ function MenuManagement() {
 
   const [type, setType] =    useState("Veg");
 
-  const [image, setImage] =  useState("");
+  const [breakfast, setBreakfast] =
+useState(false);
+
+const [lunch, setLunch] =
+useState(false);
+
+const [dinner, setDinner] =
+useState(false);
+
+const [allTime, setAllTime] =
+useState(false);
 
   const [showEditModal,setShowEditModal] =useState(false);
 
@@ -65,7 +75,7 @@ function MenuManagement() {
     try {
 
       const response =
-        await API.get("/foods");
+        await API.get("/foods/all");
 
       setFoods(response.data);
 
@@ -133,15 +143,27 @@ function MenuManagement() {
 
         type,
 
-        image,
+         breakfast,
+
+  lunch,
+
+  dinner,
+
+  allTime,
 
       });
 
       setName("");
       setPrice("");
-      setCategory("Meals");
+      setCategory("Breakfast");
       setType("Veg");
-      setImage("");
+      setBreakfast(false);
+
+setLunch(false);
+
+setDinner(false);
+
+setAllTime(false);
 
       fetchFoods();
 
@@ -191,8 +213,21 @@ function MenuManagement() {
   setPrice(food.price);
 
   setType(food.type);
+  setBreakfast(
+  food.breakfast
+);
 
-  setImage(food.image);
+setLunch(
+  food.lunch
+);
+
+setDinner(
+  food.dinner
+);
+
+setAllTime(
+  food.allTime
+);
 
 };
 
@@ -210,8 +245,13 @@ const updateFood = async () => {
         category,
         price,
         type,
-        image,
+         breakfast,
 
+  lunch,
+
+  dinner,
+
+  allTime,
       }
 
     );
@@ -220,7 +260,7 @@ const updateFood = async () => {
 
     setName("");
     setPrice("");
-    setImage("");
+    
 
     fetchFoods();
 
@@ -317,7 +357,7 @@ mb-8
 
         <div className="bg-white rounded-3xl shadow-sm p-6 mb-8">
 
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
 
             <input
   placeholder="Search food..."
@@ -336,14 +376,6 @@ mb-8
               }
               className="border rounded-xl px-4 py-3"
             />
-            <input
-  placeholder="Image URL"
-  value={image}
-  onChange={(e) =>
-    setImage(e.target.value)
-  }
-  className="border p-3 rounded-xl"
-/>
 
            <select
   value={category}
@@ -394,7 +426,61 @@ mb-8
   }
   className="border rounded-xl px-4 py-3"
 />
+<div className="grid grid-cols-2 gap-4">
 
+<label className="flex items-center gap-2">
+
+<input
+type="checkbox"
+checked={breakfast}
+onChange={(e)=>
+setBreakfast(e.target.checked)}
+/>
+
+Breakfast
+
+</label>
+
+<label className="flex items-center gap-2">
+
+<input
+type="checkbox"
+checked={lunch}
+onChange={(e)=>
+setLunch(e.target.checked)}
+/>
+
+Lunch
+
+</label>
+
+<label className="flex items-center gap-2">
+
+<input
+type="checkbox"
+checked={dinner}
+onChange={(e)=>
+setDinner(e.target.checked)}
+/>
+
+Dinner
+
+</label>
+
+<label className="flex items-center gap-2">
+
+<input
+type="checkbox"
+checked={allTime}
+onChange={(e)=>
+setAllTime(e.target.checked)}
+/>
+
+All Time
+
+</label>
+
+</div>
             <button
 
   onClick={
@@ -507,10 +593,6 @@ mb-8
   setPrice(food.price);
 
   setType(food.type);
-
-  setImage(
-    food.image
-  );
 
   setShowEditModal(
     true
@@ -631,22 +713,6 @@ Edit Food
   "
 />
 
-<input
-  value={image}
-  onChange={(e)=>
-    setImage(
-      e.target.value
-    )
-  }
-  placeholder="Image URL"
-  className="
-  w-full
-  border
-  rounded-xl
-  px-4
-  py-3
-  "
-/>
 
 <select
   value={category}
@@ -721,7 +787,53 @@ Edit Food
   py-3
   "
 />
+<div className="grid grid-cols-2 gap-4">
 
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      checked={breakfast}
+      onChange={(e) =>
+        setBreakfast(e.target.checked)
+      }
+    />
+    Breakfast
+  </label>
+
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      checked={lunch}
+      onChange={(e) =>
+        setLunch(e.target.checked)
+      }
+    />
+    Lunch
+  </label>
+
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      checked={dinner}
+      onChange={(e) =>
+        setDinner(e.target.checked)
+      }
+    />
+    Dinner
+  </label>
+
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      checked={allTime}
+      onChange={(e) =>
+        setAllTime(e.target.checked)
+      }
+    />
+    All Time
+  </label>
+
+</div>
 </div>
 
 <div className="

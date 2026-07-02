@@ -9,9 +9,14 @@ const {
   deleteFood,
   toggleAvailability,
   updateFood,
+  getAllFoods,
 
 } = require(
   "../controllers/foodController"
+);
+router.get(
+  "/all",
+  getAllFoods
 );
 
 router.get("/", getFoods);

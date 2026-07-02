@@ -492,19 +492,25 @@ ${
 
     (food) =>
 
-      food.category ===
-      category &&
+      food.category === category &&
 
-      food.name
-        .toLowerCase()
-        .includes(
-          search.toLowerCase()
-        )
+      (
+
+        food.name
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          )
+
         ||
 
-food.category
-  .toLowerCase()
-  .includes(search.toLowerCase())
+        food.category
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          )
+
+      )
 
   );
 

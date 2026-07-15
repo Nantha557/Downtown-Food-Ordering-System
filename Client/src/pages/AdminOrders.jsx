@@ -554,24 +554,34 @@ const printKOT = async(order) => {
 
     <body>
 
-      <center>
+     <center>
 
-        <h2>
-          Downtown Business Hotel
-        </h2>
+<h2>
+Downtown Business Hotel
+</h2>
 
-        <h3>
-          KOT
-        </h3>
+<h3>
+Kitchen Order Ticket
+</h3>
 
-      </center>
 
-      <p>
+</center>
 
-        Room No :
-        ${order.roomNumber}
+     <p>
 
-      </p>
+<strong>KOT No :</strong>
+
+${String(order.kotNumber).padStart(4, "0")}
+
+</p>
+
+<p>
+
+<strong>Room No :</strong>
+
+${order.roomNumber}
+
+</p>
 
       <p>
 
@@ -1211,13 +1221,13 @@ const roomStatus =
 
   >
 
-  <h3 className="font-bold">
+  <h3 className="font-bold text-blue-700">
 
-  Order #
+KOT #
 
-  {index + 1}
+{String(order.kotNumber).padStart(4, "0")}
 
-  </h3>
+</h3>
 
   <p className="text-gray-500 text-sm">
 
@@ -1323,56 +1333,6 @@ const roomStatus =
 
   </h3>
 
-  <button
-
-  onClick={async () => {
-
-    try {
-
-      for (const order of selectedRoom) {
-
-        await API.put(
-
-          `/orders/${order._id}/pay`
-
-        );
-
-      }
-
-      setShowModal(false);
-
-      fetchData();
-
-    } catch (error) {
-
-      console.log(error);
-
-    }
-
-  }}
-
-  className="
-
-  mt-4
-
-  bg-green-600
-  hover:bg-green-700
-
-  text-white
-
-  px-6 py-3
-
-  rounded-xl
-
-  font-semibold
-
-  "
-
-  >
-
-  Complete Checkout
-
-  </button>
   
 
   </div>

@@ -13,6 +13,10 @@ import RoomServiceOrders from "./pages/RoomServiceOrders";
 import AdminOrders from "./pages/AdminOrders";
 import Login from "./pages/Login";
 import AutoRedirect from "./components/AutoRedirect";
+import RestaurantSelection from "./pages/RestaurantSelection";
+import PavilionMenu from "./pages/PavilionMenu";
+import DTCafeLanding from "./pages/DTCafeLanding";
+import DTCafeMenu from "./pages/DTCafeMenu";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -38,9 +42,24 @@ function App() {
         {/* GUEST ROUTES */}
 
         <Route
-          path="/menu"
-          element={<GuestMenu />}
-        />
+  path="/menu"
+  element={<RestaurantSelection />}
+/>
+
+<Route
+  path="/pavilion"
+  element={<PavilionMenu />}
+/>
+
+<Route
+  path="/dt-cafe"
+  element={<DTCafeLanding/>}
+/>
+
+<Route
+  path="/dt-cafe/menu"
+  element={<DTCafeMenu />}
+/>
 
         <Route
           path="/cart"

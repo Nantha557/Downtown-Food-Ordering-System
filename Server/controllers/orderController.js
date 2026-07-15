@@ -1,3 +1,6 @@
+const Counter =
+require("../models/Counter");
+
 const Order =
   require("../models/Order");
 
@@ -15,8 +18,33 @@ const createOrder = async (req, res) => {
 
     console.log("ORDER CREATED");
 
-    const order =
-      await Order.create(req.body);
+const counter =
+  await Counter.findByIdAndUpdate(
+
+    "kot",
+
+    {
+      $inc: {
+        sequence: 1,
+      },
+    },
+
+    {
+      new: true,
+      upsert: true,
+    }
+
+  );
+
+const order =
+  await Order.create({
+
+    ...req.body,
+
+    kotNumber:
+      counter.sequence,
+
+  });
 
     const kitchenToken =
       await FcmToken.findOne({
@@ -67,12 +95,25 @@ const getOrders =
 
     try {
 
-     const orders =
+     const today = new Date();
+
+today.setHours(
+  0,
+  0,
+  0,
+  0
+);
+
+const orders =
   await Order.find({
 
-    status: {
-      $ne: "Paid"
-    }
+    createdAt: {
+      $gte: today,
+    },
+
+  }).sort({
+
+    createdAt: -1,
 
   });
 

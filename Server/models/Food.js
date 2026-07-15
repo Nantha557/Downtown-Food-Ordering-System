@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 
 const foodSchema = new mongoose.Schema({
 
+  restaurant: {
+    type: String,
+    enum: ["Pavilion", "DT Cafe"],
+    required: true,
+  },
+
   name: {
     type: String,
     required: true,

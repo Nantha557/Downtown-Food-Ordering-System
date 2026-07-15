@@ -7,6 +7,14 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
 
+  kotNumber: {
+
+  type: Number,
+
+  unique: true,
+
+},
+
   items: [
     {
       foodId: String,

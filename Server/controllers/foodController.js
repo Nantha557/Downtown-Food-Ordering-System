@@ -104,14 +104,26 @@ const currentTime =
 
     }
 
-const foods = await Food.find({
+const restaurant =
+  req.query.restaurant;
+
+const query = {
 
   available: true,
 
   ...filter,
 
-});
+};
 
+if (restaurant) {
+
+  query.restaurant =
+    restaurant;
+
+}
+
+const foods =
+  await Food.find(query);
 
     res.json(foods);
 

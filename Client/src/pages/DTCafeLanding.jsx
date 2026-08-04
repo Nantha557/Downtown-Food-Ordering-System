@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import background from "../assets/background.png";
 
@@ -22,7 +23,7 @@ import img17 from "../assets/17.png";
 function DTCafeLanding() {
 
 const navigate = useNavigate();
-
+const [loading, setLoading] = useState(true);
 
 const categories = [
 
@@ -59,6 +60,89 @@ const categories = [
 { name: "Smoothies", image: img17 },
 
 ];
+
+useEffect(() => {
+
+  const timer = setTimeout(() => {
+
+    setLoading(false);
+
+  }, 1200);
+
+  return () => clearTimeout(timer);
+
+}, []);
+
+if (loading) {
+
+  return (
+
+    <div
+      className="
+      min-h-screen
+      flex
+      items-center
+      justify-center
+      bg-[#f7f5f2]
+      "
+    >
+
+      <div className="text-center">
+
+        <div
+          className="
+          text-6xl
+          animate-bounce
+          "
+        >
+          ☕
+        </div>
+
+        <img
+          src="/Downtown Business Hotel Logo.png"
+          alt="Downtown Hotel"
+          className="
+          w-52
+          mx-auto
+          mt-4
+          "
+        />
+
+        <p
+          className="
+          mt-6
+          text-xl
+          font-semibold
+          text-[#8B5E34]
+          "
+        >
+          Preparing your café...
+        </p>
+
+        <div
+          className="
+          flex
+          justify-center
+          gap-2
+          mt-5
+          "
+        >
+
+          <div className="w-3 h-3 rounded-full bg-[#C89563] animate-bounce"></div>
+
+          <div className="w-3 h-3 rounded-full bg-[#C89563] animate-bounce [animation-delay:150ms]"></div>
+
+          <div className="w-3 h-3 rounded-full bg-[#C89563] animate-bounce [animation-delay:300ms]"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
+
+}
 
 return(
 

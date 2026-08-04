@@ -8,6 +8,8 @@ function DTCafeMenu() {
   const [foods, setFoods] =
     useState([]);
 
+  const [loading, setLoading] = useState(true);
+
   const [cart, setCart] =
     useState([]);
 
@@ -148,30 +150,34 @@ useEffect(() => {
 
   const fetchFoods = async () => {
 
-    try {
+  try {
 
-      const response =
- await API.get(
-  "/foods?restaurant=DT Cafe"
-);
+    setLoading(true);
 
-      setFoods(
-
-        response.data.filter(
-          (food) =>
-            food.available
-        )
-
+    const response =
+      await API.get(
+        "/foods?restaurant=DT Cafe"
       );
 
-    } catch (error) {
+    setFoods(
 
-      console.log(error);
+      response.data.filter(
+        (food) => food.available
+      )
 
-    }
+    );
 
-  };
-  
+  } catch (error) {
+
+    console.log(error);
+
+  } finally {
+
+    setLoading(false);
+
+  }
+
+};
 
   const addToCart = (food) => {
 
@@ -280,6 +286,104 @@ const decreaseQuantity = (foodId) => {
       0
 
     );
+
+    if (loading) {
+
+  return (
+
+    <div
+      className="
+      min-h-screen
+      flex
+      items-center
+      justify-center
+      bg-[#f7f5f2]
+      "
+    >
+
+      <div className="text-center">
+
+        <div
+          className="
+          text-6xl
+          animate-bounce
+          "
+        >
+          ☕
+        </div>
+
+        <img
+          src="/CAFE LOGO.png"
+          alt="DT Cafe"
+          className="
+          w-44
+          mx-auto
+          mt-4
+          "
+        />
+
+        <p
+          className="
+          mt-6
+          text-xl
+          font-semibold
+          text-[#8B5E34]
+          "
+        >
+          Preparing your menu...
+        </p>
+
+        <div
+          className="
+          flex
+          justify-center
+          gap-2
+          mt-5
+          "
+        >
+
+          <div
+            className="
+            w-3
+            h-3
+            rounded-full
+            bg-[#C89563]
+            animate-bounce
+            "
+          />
+
+          <div
+            className="
+            w-3
+            h-3
+            rounded-full
+            bg-[#C89563]
+            animate-bounce
+            [animation-delay:150ms]
+            "
+          />
+
+          <div
+            className="
+            w-3
+            h-3
+            rounded-full
+            bg-[#C89563]
+            animate-bounce
+            [animation-delay:300ms]
+            "
+          />
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
+
+}
+
     if (foods.length === 0) {
 
   return (

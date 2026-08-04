@@ -338,12 +338,15 @@ className="text-white text-2xl"
 </button>
 
 <div>
-
-<h1 className="text-white text-2xl font-bold">
-
-Pavilion Restaurant
-
-</h1>
+ <img
+    src="/Pavilion Restaurant.png"
+    alt="DT Cafe"
+    className="
+      w-28
+      h-auto
+      object-contain
+    "
+  />
 
 <p className="text-white/80 text-sm">
 
@@ -362,7 +365,7 @@ Multi Cuisine
 <div
 className="
 sticky
-top-[72px]
+top-[86px]
 z-40
 bg-white
 p-4
@@ -420,10 +423,11 @@ h-[calc(100vh-150px)]
 
 overflow-y-auto
 
-bg-white
+bg-[#E8CCAE]
 
 border-r
 
+border-[#D5A97A]
 "
 
 >

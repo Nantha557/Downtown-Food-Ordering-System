@@ -372,17 +372,25 @@ className="text-white text-2xl"
 
 <div>
 
-<h1 className="text-white text-2xl font-bold">
+<div>
 
-DT Cafe
+  <img
+    src="/CAFE LOGO.png"
+    alt="DT Cafe"
+    className="
+      w-28
+      h-auto
+      object-contain
+    "
+  />
 
-</h1>
+  <p className="text-white/80 text-sm">
 
-<p className="text-white/80 text-sm">
+    Freshly Made Warmly Served
 
-Freshly Made Warmly Served
+  </p>
 
-</p>
+</div>
 
 </div>
 
@@ -395,7 +403,7 @@ Freshly Made Warmly Served
 <div
 className="
 sticky
-top-[72px]
+top-[86px]
 z-40
 bg-white
 p-4
@@ -454,9 +462,11 @@ h-[calc(100vh-150px)]
 
 overflow-y-auto
 
-bg-white
+bg-[#E8CCAE]
 
 border-r
+
+border-[#D5A97A]
 
 "
 

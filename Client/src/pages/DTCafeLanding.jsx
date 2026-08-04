@@ -169,26 +169,24 @@ text-gray-700
 
 </button>
 
-<h1
+<div className="flex justify-center">
 
-className="
-text-center
-text-5xl
-font-semibold
-italic
-text-[#d68b2d]
-"
+  <img
+    src="/CAFE LOGO.png"
+    alt="DT Cafe"
+    className="
+      w-44
+      h-auto
+      object-contain
+    "
+  />
 
->
-
-DT Cafe
-
-</h1>
+</div>
 
 <p
 
 className="
-mt-3
+mt-1
 text-center
 text-gray-500
 font-semibold
@@ -208,16 +206,16 @@ Freshly Made Warmly Served
 {/* Categories */}
 
 <div
-
 className="
 grid
 grid-cols-3
-gap-x-4
+gap-x-2
+sm:gap-x-4
 gap-y-8
-px-4
+px-3
+sm:px-4
 pb-10
 "
-
 >
 
 {
@@ -262,8 +260,10 @@ hover:scale-105
 <div
 
 className="
-w-28
-h-28
+w-24
+h-24
+sm:w-28
+sm:h-28
 rounded-full
 bg-white
 shadow-md
@@ -284,8 +284,10 @@ src={item.image}
 alt={item.name}
 
 className="
-w-24
-h-24
+w-20
+h-20
+sm:w-24
+sm:h-24
 object-contain
 "
 

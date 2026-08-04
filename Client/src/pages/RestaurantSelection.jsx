@@ -57,44 +57,31 @@ function RestaurantSelection() {
       />
 
       {/* HEADER */}
+{/* HEADER */}
 
-      <div
-        className="
-        bg-[#C89563]
-        rounded-b-[30px]
-        shadow-xl
+<div
+  className="
+  bg-[#C89563]
+  rounded-b-[35px]
+  shadow-xl
+  py-5
+  px-6
+  flex
+  justify-center
+  "
+>
 
-        py-5
-        px-6
-        "
-      >
+  <img
+    src="/Downtown Business Hotel Logo.png"
+    alt="Downtown Business Hotel"
+    className="
+      w-64
+      h-auto
+      object-contain
+    "
+  />
 
-        <h1
-          className="
-          text-white
-          text-5xl
-          italic
-          font-bold
-          text-center
-          leading-none
-          "
-        >
-          Downtown
-        </h1>
-
-        <p
-          className="
-          text-white
-          text-center
-          text-2xl
-          font-semibold
-          mt-1
-          "
-        >
-          Business Hotel
-        </p>
-
-      </div>
+</div>
 
       {/* BODY */}
 
@@ -108,19 +95,9 @@ function RestaurantSelection() {
           text-gray-800
           "
         >
-          Select Restaurant
+          Choose Your Food Outlet for Room order
         </h2>
 
-        <p
-          className="
-          text-center
-          text-gray-600
-          mt-2
-          mb-8
-          "
-        >
-          Please choose your dining destination
-        </p>
 
         <div
           className="
@@ -138,7 +115,7 @@ function RestaurantSelection() {
 
             className="
             flex-1
-            max-w-[160px]
+            max-w-[165px]
 
             bg-white/95
             backdrop-blur-md
@@ -183,16 +160,16 @@ function RestaurantSelection() {
 
             />
 
-            <h3
-              className="
-              text-lg
-              font-bold
-              text-center
-              mt-4
-              "
-            >
-              Pavilion
-            </h3>
+            <img
+  src="/Pavilion Restaurant.png"
+  alt="Pavilion"
+  className="
+    w-36
+    h-auto
+    mx-auto
+    object-contain
+  "
+/>
 
             <div
               className="
@@ -210,7 +187,7 @@ function RestaurantSelection() {
               </p>
 
               <p className="whitespace-nowrap">
-                🍛 Lunch • 12 PM - 3 PM
+                🍛 Lunch • 1 PM - 3 PM
               </p>
 
               <p className="whitespace-nowrap">
@@ -229,7 +206,7 @@ function RestaurantSelection() {
 
             className="
             flex-1
-            max-w-[160px]
+            max-w-[165px]
 
             bg-white/95
             backdrop-blur-md
@@ -274,16 +251,16 @@ function RestaurantSelection() {
 
             />
 
-            <h3
-              className="
-              text-lg
-              font-bold
-              text-center
-              mt-4
-              "
-            >
-              DT Cafe
-            </h3>
+            <img
+  src="/CAFE LOGO.png"
+  alt="DT Cafe"
+  className="
+    w-28
+    h-auto
+    mx-auto
+    object-contain
+  "
+/>
 
             <div
               className="

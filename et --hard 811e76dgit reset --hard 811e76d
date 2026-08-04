@@ -1,0 +1,46 @@
+[33mf0c34f0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Revert "Restaurant selection"
+[33m34097b9[m[33m ([m[1;31morigin/master[m[33m)[m Temporarily disable firebase notifications
+[33m80d74c3[m Temporarily disable firebase notifications
+[33mcb093ab[m Improve DT Cafe and Pavilion guest menu UI
+[33mdff1231[m Improve DT Cafe and Pavilion guest menu UI
+[33mb07b3bd[m Added Firebase push notifications and UI updates
+[33m811e76d[m Restaurant selection
+[33m0ba5b83[m Restaurant selection and DT Cafe redesign
+[33meb60939[m Restaurant selection and DT Cafe redesign
+[33md8064fd[m Restaurant selection and DT Cafe redesign
+[33m5123a54[m Restaurant selection and DT Cafe redesign
+[33m454a1f0[m Added Pavilion and DT Cafe room service redesign
+[33mfa14942[m Added dynamic menu timing and guest menu improvements
+[33mce6a1c6[m Added dynamic menu timing and guest menu improvements
+[33m0aca23d[m Added dynamic menu timing and guest menu improvements
+[33m33b71fb[m timer updates
+[33m7277006[m timer updates
+[33m68bf25d[m timer updates
+[33m6c4e390[m changing top cards
+[33m4e5784a[m noti sound
+[33m1816d08[m noti sound
+[33mb254347[m Admin dashboard KOT redesign phase 1
+[33ma53f946[m noti sound
+[33meb66486[m Admin dashboard KOT redesign phase 1
+[33m665a409[m Admin dashboard KOT redesign phase 1
+[33mf8f916c[m Admin dashboard KOT redesign phase 1
+[33mabc1c7c[m Admin dashboard KOT redesign phase 1
+[33mea118b2[m debug notification logs
+[33m4170fa6[m fix firebase admin version
+[33m7249159[m moved firebase credentials to env variables
+[33m0036628[m added firebase push notification support
+[33m4ace684[m added pwa support
+[33meb568d1[m added pwa support
+[33m2000e3d[m added pwa support
+[33m8a6cd53[m added pwa support
+[33maa501e7[m added pwa support
+[33m8db1fe6[m added pwa support
+[33mfa61a31[m added pwa support
+[33mee645fd[m added vercel routing
+[33m35295c2[m added vercel routing
+[33mb21583e[m added vercel routing
+[33m1abeaf3[m added vercel routing
+[33m79427ec[m added axios dependency
+[33m2b0de79[m Updated API URL for production
+[33m503cec5[m Updated API URL for production
+[33mdaba54c[m Initial commit - Downtown Food Ordering System

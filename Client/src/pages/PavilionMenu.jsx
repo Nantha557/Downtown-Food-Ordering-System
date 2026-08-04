@@ -424,7 +424,7 @@ right-0
 z-50
 bg-[#C89563]
 px-5
-py-4
+py-6
 shadow-lg
 "
 >
@@ -448,17 +448,11 @@ className="text-white text-2xl"
     src="/Pavilion Restaurant.png"
     alt="DT Cafe"
     className="
-      w-28
+      w-40
       h-auto
       object-contain
     "
   />
-
-<p className="text-white/80 text-sm">
-
-Multi Cuisine
-
-</p>
 
 </div>
 

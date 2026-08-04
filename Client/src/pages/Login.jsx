@@ -65,11 +65,21 @@ function Login() {
         response.data.username
 
       );
-      const token =
-  await requestNotificationPermission();
+      try {
 
-console.log(token);
+  const token =
+    await requestNotificationPermission();
 
+  console.log(token);
+
+} catch (err) {
+
+  console.log(
+    "FCM skipped",
+    err
+  );
+
+}
       if (
         response.data.role ===
         "Admin"

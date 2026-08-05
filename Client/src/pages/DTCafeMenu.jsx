@@ -444,64 +444,51 @@ const decreaseQuantity = (foodId) => {
 
 <div className="min-h-screen bg-[#f7f5f2] pb-28">
 
-{/* Header */}
-
 <div
-className="
-fixed
-top-0
-left-0
-right-0
-z-50
-bg-[#C89563]
-px-5
-py-4
-shadow-lg
-"
+  className="
+    fixed
+    top-0
+    left-0
+    right-0
+    z-50
+    bg-[#C89563]
+    px-5
+    py-4
+    shadow-lg
+  "
 >
+  <div className="relative flex items-center justify-center">
 
-<div className="flex items-center gap-3">
+    <button
+      onClick={() => navigate(-1)}
+      className="
+        absolute
+        left-0
+        text-white
+        text-2xl
+      "
+    >
+      ←
+    </button>
 
-<button
+    <div className="text-center">
+      <img
+        src="/DT Cafe Logo White.png"
+        alt="DT Cafe"
+        className="
+          w-40
+          h-auto
+          object-contain
+          mx-auto
+        "
+      />
 
-onClick={() => navigate(-1)}
+      <p className="text-white/80 text-sm">
+        Freshly Made Warmly Served
+      </p>
+    </div>
 
-className="text-white text-2xl"
-
->
-
-←
-
-</button>
-
-<div>
-
-<div>
-
-<div className="flex justify-center flex-1">
-  <img
-    src="/DT Cafe Logo White.png"
-    alt="Pavilion"
-    className="
-      w-40
-      h-auto
-      object-contain
-    "
-  />
-</div>
-
-  <p className="text-white/80 text-sm">
-
-    Freshly Made Warmly Served
-
-  </p>
-
-</div>
-
-</div>
-
-</div>
-
+  </div>
 </div>
 
 {/* Search */}

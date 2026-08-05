@@ -478,15 +478,17 @@ className="text-white text-2xl"
 
 <div>
 
+<div className="flex justify-center flex-1">
   <img
-    src="/CAFE LOGO.png"
-    alt="DT Cafe"
+    src="/DT Cafe Logo White.png"
+    alt="Pavilion"
     className="
-      w-28
+      w-40
       h-auto
       object-contain
     "
   />
+</div>
 
   <p className="text-white/80 text-sm">
 
@@ -507,7 +509,7 @@ className="text-white text-2xl"
 <div
 className="
 sticky
-top-[86px]
+top-[120px]
 z-40
 bg-white
 p-4

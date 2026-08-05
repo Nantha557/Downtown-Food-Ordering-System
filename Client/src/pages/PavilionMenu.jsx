@@ -443,17 +443,16 @@ className="text-white text-2xl"
 
 </button>
 
-<div>
- <img
-    src="/Pavilion Restaurant.png"
-    alt="DT Cafe"
+<div className="flex justify-center flex-1">
+  <img
+    src="/Pavilion White.png"
+    alt="Pavilion"
     className="
       w-40
       h-auto
       object-contain
     "
   />
-
 </div>
 
 </div>

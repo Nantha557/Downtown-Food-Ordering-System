@@ -1,13 +1,17 @@
 import { useState } from "react";
-
-import { useLocation } from "react-router-dom";
-
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import API from "../services/api";
 
 function Checkout() {
 
   const location =
     useLocation();
+
+  const navigate =
+    useNavigate();
 
   const cart =
     location.state?.cart || [];
@@ -19,8 +23,22 @@ function Checkout() {
     setRoomNumber] =
     useState("");
 
+  const [orderPlaced,
+    setOrderPlaced] =
+    useState(false);
+
   const placeOrder =
     async () => {
+
+      if (!roomNumber.trim()) {
+
+        alert(
+          "Please enter your room number."
+        );
+
+        return;
+
+      }
 
       try {
 
@@ -53,29 +71,115 @@ function Checkout() {
           }
         );
 
-        alert(
-          "Order Placed Successfully"
-        );
+        setOrderPlaced(true);
+
+        setTimeout(() => {
+
+          navigate("/menu");
+
+        }, 2500);
 
       } catch (error) {
 
         console.log(error);
 
+        alert(
+          "Failed to place order."
+        );
+
       }
 
     };
+
+  if (orderPlaced) {
+
+    return (
+
+      <div className="min-h-screen flex items-center justify-center bg-[#f7f5f2]">
+
+        <div
+          className="
+          bg-white
+          p-10
+          rounded-3xl
+          shadow-xl
+          text-center
+          max-w-md
+          "
+        >
+
+          <div className="text-6xl mb-4">
+            🎉
+          </div>
+
+          <h2
+            className="
+            text-2xl
+            font-bold
+            text-green-600
+            "
+          >
+            Order Placed Successfully
+          </h2>
+
+          <p
+            className="
+            text-gray-600
+            mt-3
+            "
+          >
+            Thank you for your order!
+          </p>
+
+          <p
+            className="
+            text-gray-500
+            mt-1
+            "
+          >
+            Your request has been sent to our kitchen.
+          </p>
+
+          <p
+            className="
+            text-sm
+            text-gray-400
+            mt-5
+            "
+          >
+            Redirecting to Guest Portal...
+          </p>
+
+        </div>
+
+      </div>
+
+    );
+
+  }
 
   return (
 
     <div className="min-h-screen bg-gray-100 p-4">
 
-      <h1 className="text-2xl font-bold mb-6">
-
+      <h1
+        className="
+        text-2xl
+        font-bold
+        mb-6
+        "
+      >
         Order Confirmation
-
       </h1>
 
-      <div className="bg-white p-5 rounded-3xl shadow-sm">
+      <div
+        className="
+        bg-white
+        p-5
+        rounded-3xl
+        shadow-sm
+        "
+      >
 
         <input
 
@@ -89,7 +193,13 @@ function Checkout() {
             )
           }
 
-          className="w-full border rounded-xl p-3 mb-4"
+          className="
+          w-full
+          border
+          rounded-xl
+          p-3
+          mb-4
+          "
 
         />
 
@@ -97,8 +207,7 @@ function Checkout() {
 
           <h2 className="font-bold">
 
-            Total:
-            ₹{total}
+            Total: ₹{total}
 
           </h2>
 
@@ -108,7 +217,16 @@ function Checkout() {
 
           onClick={placeOrder}
 
-          className="w-full bg-green-600 text-white py-3 rounded-xl"
+          className="
+          w-full
+          bg-green-600
+          hover:bg-green-700
+          text-white
+          py-3
+          rounded-xl
+          font-semibold
+          transition
+          "
 
         >
 

@@ -47,6 +47,8 @@ function Checkout() {
           {
 
             roomNumber,
+            restaurant:
+              cart[0]?.restaurant,
 
             items:
               cart.map(

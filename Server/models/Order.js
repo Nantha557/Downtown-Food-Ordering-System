@@ -7,13 +7,18 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
 
+  restaurant: {
+    type: String,
+    required: true,
+  },
+
   kotNumber: {
 
-  type: Number,
+    type: Number,
 
-  unique: true,
+    unique: true,
 
-},
+  },
 
   items: [
     {
@@ -33,17 +38,17 @@ const orderSchema = new mongoose.Schema({
   },
 
   status: {
-  type: String,
-  enum: [
-    "Pending",
-    "Preparing",
-    "Ready",
-    "Delivered",
-    "Paid",
-    "Printed",
-  ],
-  default: "Pending",
-},
+    type: String,
+    enum: [
+      "Pending",
+      "Preparing",
+      "Ready",
+      "Delivered",
+      "Paid",
+      "Printed",
+    ],
+    default: "Pending",
+  },
 
   paymentStatus: {
 

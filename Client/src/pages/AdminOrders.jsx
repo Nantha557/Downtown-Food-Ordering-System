@@ -343,7 +343,7 @@ pendingOrders.forEach(
 
     if (
 
-      mins >= 15 &&
+      mins >= 2 &&
 
       !alertedRooms.current.includes(
         order._id
@@ -561,8 +561,12 @@ Downtown Business Hotel
 </h2>
 
 <h3>
-Kitchen Order Ticket
+${order.restaurant || "Restaurant"}
 </h3>
+
+<h4>
+Kitchen Order Ticket
+</h4>
 
 
 </center>
@@ -1028,13 +1032,13 @@ const roomStatus =
           ${
             getOrderAge(
               pendingOrders[0].createdAt
-            ) >= 15
+            ) >= 2
 
             ? "bg-red-100 text-red-700"
 
             : getOrderAge(
                 pendingOrders[0].createdAt
-              ) >= 10
+              ) >= 1
 
             ? "bg-yellow-100 text-yellow-700"
 

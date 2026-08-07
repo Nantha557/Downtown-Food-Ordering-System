@@ -505,185 +505,278 @@ alertedRooms.current =
   return mins;
 
 };
-
-const printKOT = async(order) => {
+const printKOT = async (order) => {
 
   console.log("PRINT FUNCTION CALLED");
-console.trace();
 
-  const date =
-    new Date(
-      order.createdAt
-    );
+  const date = new Date(order.createdAt);
+
+  const restaurant =
+    order.restaurant || "Restaurant";
 
   const content = `
+<html>
 
-    <html>
+<head>
 
-    <head>
+<title>KOT</title>
 
-      <title>KOT</title>
+<style>
 
-      <style>
+@page{
+  size:58mm auto;
+  margin:0;
+}
 
-        body {
+body{
 
-          font-family: monospace;
+  width:58mm;
 
-          padding:20px;
+  margin:0;
 
-        }
+  padding:4px;
 
-        table {
+  font-family:monospace;
 
-          width:100%;
+  font-size:10px;
 
-          border-collapse:collapse;
+  line-height:1.1;
 
-        }
+}
 
-        th,
-        td {
+.center{
+  text-align:center;
+}
 
-          text-align:left;
+.hotel{
 
-          padding:5px;
+  font-size:15px;
 
-        }
+  font-weight:bold;
 
-      </style>
+}
 
-    </head>
+.restaurant{
 
-    <body>
+  font-size:13px;
 
-     <center>
+  font-weight:bold;
 
-<h2>
+  margin-top:2px;
+
+}
+
+.sub{
+
+  font-size:11px;
+
+  margin-bottom:4px;
+
+}
+
+hr{
+
+  border:none;
+
+  border-top:1px dashed #000;
+
+  margin:4px 0;
+
+}
+
+table{
+
+  width:100%;
+
+  border-collapse:collapse;
+
+}
+
+th{
+
+  text-align:left;
+
+  font-size:11px;
+
+  padding:2px 0;
+
+}
+
+td{
+
+  padding:2px 0;
+
+  vertical-align:top;
+
+}
+
+.qty{
+
+  text-align:right;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="center">
+
+<div class="hotel">
 Downtown Business Hotel
-</h2>
+</div>
 
-<h3>
-${order.restaurant || "Restaurant"}
-</h3>
+<div class="restaurant">
+${restaurant.toUpperCase()}
+</div>
 
-<h4>
+<div class="sub">
 Kitchen Order Ticket
-</h4>
+</div>
 
+</div>
 
-</center>
+<hr>
 
-     <p>
+<table
+  style="
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:3px;
+    font-size:10px;
+  "
+>
 
-<strong>KOT No :</strong>
+<tr>
 
-${String(order.kotNumber).padStart(4, "0")}
+<td
+style="
+width:50%;
+padding:1px 0;
+white-space:nowrap;
+"
+>
+<b>KOT :</b>
+${String(order.kotNumber).padStart(4,"0")}
+</td>
 
-</p>
+<td
+style="
+width:50%;
+padding:1px 0;
+text-align:right;
+white-space:nowrap;
+"
+>
+<b>Date :</b>
+${date.toLocaleDateString("en-GB")}
+</td>
 
-<p>
+</tr>
 
-<strong>Room No :</strong>
+<tr>
 
+<td
+style="
+padding:1px 0;
+white-space:nowrap;
+"
+>
+<b>Room :</b>
 ${order.roomNumber}
+</td>
 
-</p>
+<td
+style="
+padding:1px 0;
+text-align:right;
+white-space:nowrap;
+"
+>
+<b>Time :</b>
+${date.toLocaleTimeString([],{
+hour:"2-digit",
+minute:"2-digit",
+hour12:true
+})}
+</td>
 
-      <p>
+</tr>
 
-        Date :
-        ${date.toLocaleDateString()}
+</table>
 
-      </p>
+<hr>
 
-      <p>
+<table>
 
-        Time :
-        ${date.toLocaleTimeString()}
+<tr>
 
-      </p>
+<th width="12%">
+No
 
-      <hr/>
+</th>
 
-      <table>
+<th>
+Item
 
-        <tr>
+</th>
 
-          <th>
-            S.No
-          </th>
+<th width="18%" class="qty">
+Qty
 
-          <th>
-            Item
-          </th>
+</th>
 
-          <th>
-            Qty
-          </th>
+</tr>
 
-        </tr>
+${order.items.map((item,index)=>`
 
-        ${order.items
-          .map(
+<tr>
 
-            (item,index)=>`
+<td>
+${index+1}
+</td>
 
-            <tr>
+<td>
+${item.name}
+</td>
 
-              <td>
-                ${index+1}
-              </td>
+<td class="qty">
+${item.quantity}
+</td>
 
-              <td>
-                ${item.name}
-              </td>
+</tr>
 
-              <td>
-                ${item.quantity}
-              </td>
+`).join("")}
 
-            </tr>
+</table>
 
-          `
 
-          )
-          .join("")}
+</body>
 
-      </table>
+</html>
+`;
 
-      <hr/>
+  const win = window.open("", "_blank");
 
-    </body>
-
-    </html>
-
-  `;
-
-  const win =
-    window.open(
-      "",
-      "_blank"
-    );
-
-  win.document.write(
-    content
-  );
+  win.document.write(content);
 
   win.document.close();
+
   await API.put(
+    `/orders/${order._id}/status`,
+    {
+      status:"Printed"
+    }
+  );
 
-  `/orders/${order._id}/status`,
-
-  {
-    status:"Printed"
-  }
-
-);
-
-fetchData();
+  fetchData();
 
   win.print();
+  win.onafterprint = () => {
+  win.close();
+};
 
 };
 

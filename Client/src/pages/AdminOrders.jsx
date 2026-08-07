@@ -508,6 +508,9 @@ alertedRooms.current =
 
 const printKOT = async(order) => {
 
+  console.log("PRINT FUNCTION CALLED");
+console.trace();
+
   const date =
     new Date(
       order.createdAt

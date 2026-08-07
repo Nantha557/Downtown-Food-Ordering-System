@@ -324,7 +324,7 @@ setOrders(
       "Pending"
   );
 
-pependingOrders.forEach(
+pendingOrders.forEach(
   order => {
 
     const mins =

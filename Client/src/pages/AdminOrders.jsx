@@ -12,7 +12,7 @@ from "../assets/alarm.wav";
       useState([]);
 
       const alertedRooms =
-useRef([]);
+useRef({});
 
 const previousCount =
 useRef(0);
@@ -324,7 +324,7 @@ setOrders(
       "Pending"
   );
 
-pendingOrders.forEach(
+pependingOrders.forEach(
   order => {
 
     const mins =
@@ -341,46 +341,54 @@ pendingOrders.forEach(
 
       );
 
-    if (
+    if (mins >= 2) {
 
-      mins >= 2 &&
+      if (
+        alertedRooms.current[
+          order._id
+        ] !== mins
+      ) {
 
-      !alertedRooms.current.includes(
-        order._id
-      )
+        const audio =
+          new Audio(
+            alertSound
+          );
 
-    ) {
+        audio.play();
 
-      const audio =
-        new Audio(
-          alertSound
-        );
+        alertedRooms.current[
+          order._id
+        ] = mins;
 
-      audio.play();
-
-      alertedRooms.current.push(
-        order._id
-      );
+      }
 
     }
 
   }
 );
-alertedRooms.current =
-  alertedRooms.current.filter(
-    id =>
+Object.keys(
+  alertedRooms.current
+).forEach(id => {
 
-      activeResponse.data.some(
-        order =>
+  const exists =
+    activeResponse.data.some(
+      order =>
 
-          order._id === id &&
+        order._id === id &&
 
-          order.status ===
-          "Pending"
+        order.status ===
+        "Pending"
+    );
 
-      )
+  if (!exists) {
 
-  );
+    delete alertedRooms.current[
+      id
+    ];
+
+  }
+
+});
 
 
       } catch (error) {

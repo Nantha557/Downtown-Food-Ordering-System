@@ -193,40 +193,45 @@ useEffect(() => {
     );
 
     const filteredRooms =
-Object.entries(
-  groupedRooms
-)
-.sort(
+  Object.entries(
+    groupedRooms
+  )
+  .sort(
+    ([, roomA], [, roomB]) => {
 
-  ([, roomA], [, roomB]) =>
+      const latestA =
+        Math.max(
+          ...roomA.map(
+            order =>
+              new Date(
+                order.createdAt
+              ).getTime()
+          )
+        );
 
-    new Date(
-      roomB[
-        roomB.length - 1
-      ].createdAt
-    )
+      const latestB =
+        Math.max(
+          ...roomB.map(
+            order =>
+              new Date(
+                order.createdAt
+              ).getTime()
+          )
+        );
 
-    -
+      return latestB - latestA;
 
-    new Date(
-      roomA[
-        roomA.length - 1
-      ].createdAt
-    )
-
-)
-.filter(
-
-  ([room]) =>
-
-    room
-      .toString()
-      .toLowerCase()
-      .includes(
-        roomSearch.toLowerCase()
-      )
-
-);
+    }
+  )
+  .filter(
+    ([room]) =>
+      room
+        .toString()
+        .toLowerCase()
+        .includes(
+          roomSearch.toLowerCase()
+        )
+  );
 
   const handleUpdateUser =
   async () => {

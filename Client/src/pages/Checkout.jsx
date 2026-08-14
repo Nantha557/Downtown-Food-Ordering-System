@@ -27,22 +27,41 @@ function Checkout() {
     setOrderPlaced] =
     useState(false);
 
+  const [placingOrder,
+  setPlacingOrder] =
+  useState(false);
+
   const placeOrder =
-    async () => {
+  async () => {
 
-      if (!roomNumber.trim()) {
+    if (!roomNumber.trim()) {
 
-        alert(
-          "Please enter your room number."
-        );
+      alert(
+        "Please enter your room number."
+      );
 
-        return;
+      return;
 
-      }
+    }
 
-      try {
+    if (placingOrder) {
+      return;
+    }
 
-        await API.post(
+    const confirmed =
+      window.confirm(
+        "Are you sure you want to place this order?"
+      );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setPlacingOrder(true);
+
+    try {
+
+      await API.post(
           "/orders",
           {
 
@@ -81,15 +100,17 @@ function Checkout() {
 
         }, 2500);
 
-      } catch (error) {
+} catch (error) {
 
-        console.log(error);
+  console.log(error);
 
-        alert(
-          "Failed to place order."
-        );
+  setPlacingOrder(false);
 
-      }
+  alert(
+    "Failed to place order."
+  );
+
+}
 
     };
 
@@ -217,24 +238,30 @@ function Checkout() {
 
         <button
 
-          onClick={placeOrder}
+  onClick={placeOrder}
 
-          className="
-          w-full
-          bg-green-600
-          hover:bg-green-700
-          text-white
-          py-3
-          rounded-xl
-          font-semibold
-          transition
-          "
+  disabled={placingOrder}
 
-        >
+  className="
+  w-full
+  bg-green-600
+  hover:bg-green-700
+  disabled:bg-gray-400
+  disabled:cursor-not-allowed
+  text-white
+  py-3
+  rounded-xl
+  font-semibold
+  transition
+  "
 
-          Place Order
+>
 
-        </button>
+  {placingOrder
+    ? "Placing Order..."
+    : "Place Order"}
+
+</button>
 
       </div>
 

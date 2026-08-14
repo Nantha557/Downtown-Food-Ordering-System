@@ -460,6 +460,53 @@ Object.keys(
 
       };
 
+     const markRoomCompleted = async (roomOrders) => {
+
+  try {
+
+    const printedOrders =
+      roomOrders.filter(
+        order =>
+          order.status === "Printed"
+      );
+
+    if (printedOrders.length === 0) {
+
+      alert(
+        "Please print the new KOT before completing the order."
+      );
+
+      return;
+    }
+
+    await Promise.all(
+
+      printedOrders.map(
+        order =>
+          API.put(
+            `/orders/${order._id}/status`,
+            {
+              status: "Completed",
+            }
+          )
+      )
+
+    );
+
+    fetchData();
+
+  } catch (error) {
+
+    console.log(error);
+
+    alert(
+      "Failed to complete order."
+    );
+
+  }
+
+};
+
       const handleDeleteUser =
   async (id) => {
 
@@ -1065,14 +1112,19 @@ const roomStatus =
 
   : roomOrders.every(
       order =>
+        order.status === "Completed"
+  )
+
+  ? "Completed"
+
+  : roomOrders.every(
+      order =>
         order.status === "Printed"
     )
 
   ? "Printed"
 
-  : "Pending";
-
-  const pendingOrders =
+  : "Pending";  const pendingOrders =
   roomOrders.filter(
     order =>
       order.status ===
@@ -1108,35 +1160,39 @@ const roomStatus =
 
                 </td>
 
-                <td className="p-3">
+              <td className="p-3">
 
   {
 
     roomStatus === "Printed" ||
-
+    roomStatus === "Completed" ||
     roomStatus === "Paid"
 
     ? (
 
       <span className="
-      bg-blue-100
-      text-blue-700
-      px-3 py-1
-      rounded-lg
-      font-semibold
+        bg-blue-100
+        text-blue-700
+        px-3 py-1
+        rounded-lg
+        font-semibold
       ">
 
-        Printed
+        {roomStatus}
 
       </span>
 
     )
 
-    : (
+    : pendingOrders.length > 0
+
+    ? (
 
       <span
         className={`
-          px-3 py-1 rounded-lg font-semibold
+          px-3 py-1
+          rounded-lg
+          font-semibold
 
           ${
             getOrderAge(
@@ -1163,6 +1219,22 @@ const roomStatus =
         }
 
         min
+
+      </span>
+
+    )
+
+    : (
+
+      <span className="
+        bg-gray-100
+        text-gray-500
+        px-3 py-1
+        rounded-lg
+        font-semibold
+      ">
+
+        --
 
       </span>
 
@@ -1233,6 +1305,34 @@ const roomStatus =
                     View
 
                   </button>
+<button
+  onClick={() =>
+    markRoomCompleted(roomOrders)
+  }
+  disabled={
+    !roomOrders.every(
+      order =>
+        order.status === "Printed"
+    )
+  }
+  className={`
+    px-4
+    py-2
+    rounded-xl
+    ml-2
+    text-white
+    ${
+      roomOrders.every(
+        order =>
+          order.status === "Printed"
+      )
+        ? "bg-green-500 hover:bg-green-600"
+        : "bg-gray-300 cursor-not-allowed"
+    }
+  `}
+>
+  Completed
+</button>
 
                 </td>
 
@@ -1393,6 +1493,24 @@ KOT #
   }
 
   </p>
+
+  <p
+  className={
+    order.status === "Printed" ||
+    order.status === "Completed" ||
+    order.status === "Paid"
+      ? "text-green-600 font-bold mt-2"
+      : "text-red-600 font-bold mt-2"
+  }
+>
+  {
+    order.status === "Printed" ||
+    order.status === "Completed" ||
+    order.status === "Paid"
+      ? "✓ PRINTED"
+      : "✕ NOT PRINTED"
+  }
+</p>
 
   <button
 

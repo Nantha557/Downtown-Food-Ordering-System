@@ -72,7 +72,7 @@ function RestaurantSelection() {
 >
 
   <img
-    src="/Downtown Business Hotel Logo.png"
+    src="/Dowtown LOGO.png"
     alt="Downtown Business Hotel"
     className="
       w-64

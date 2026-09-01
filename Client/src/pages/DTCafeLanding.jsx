@@ -294,11 +294,9 @@ className="
 grid
 grid-cols-3
 gap-x-2
-sm:gap-x-4
-gap-y-8
+gap-y-5
 px-3
-sm:px-4
-pb-10
+pb-6
 "
 >
 
@@ -342,39 +340,31 @@ hover:scale-105
 >
 
 <div
-
-className="
-w-24
-h-24
-sm:w-28
-sm:h-28
-rounded-full
-bg-white
-shadow-md
-hover:shadow-xl
-transition-all
-duration-300
-flex
-items-center
-justify-center
-"
-
+  className="
+    w-[76px]
+    h-[76px]
+    rounded-full
+    bg-white
+    shadow-md
+    hover:shadow-xl
+    transition-all
+    duration-300
+    flex
+    items-center
+    justify-center
+    overflow-hidden
+  "
 >
 
 <img
-
-src={item.image}
-
-alt={item.name}
-
-className="
-w-20
-h-20
-sm:w-24
-sm:h-24
-object-contain
-"
-
+  src={item.image}
+  alt={item.name}
+  className="
+    w-20
+    h-20
+    object-contain
+    scale-[1.35]
+  "
 />
 
 </div>
@@ -382,7 +372,7 @@ object-contain
 <p
 
 className="
-text-sm
+text-xm
 font-semibold
 leading-tight
 font-semibold

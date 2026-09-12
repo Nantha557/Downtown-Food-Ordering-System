@@ -14,49 +14,127 @@ from "../assets/alarm.wav";
       const alertedRooms =
 useRef({});
 
-const previousCount =
-useRef(0);
+const notificationAudio = useRef(null);
 
-const notificationAudio = useRef(
-  new Audio(alertSound)
-);
+const soundEnabledRef =
+  useRef(false);
+
+const [soundEnabled, setSoundEnabled] =
+  useState(false);
+
+const [soundError, setSoundError] =
+  useState("");
 
 useEffect(() => {
 
-  const unlockAudio = () => {
+  notificationAudio.current =
+    new Audio(alertSound);
 
-    notificationAudio.current
-      .play()
-      .then(() => {
-
-        notificationAudio.current.pause();
-        notificationAudio.current.currentTime = 0;
-
-      })
-      .catch(() => {});
-
-    document.removeEventListener(
-      "click",
-      unlockAudio
-    );
-
-  };
-
-  document.addEventListener(
-    "click",
-    unlockAudio
-  );
+  notificationAudio.current.preload = "auto";
 
 }, []);
 
-    const [selectedRoom, setSelectedRoom] =
+const enableSound = async () => {
+
+  try {
+
+    if (!notificationAudio.current) {
+
+      notificationAudio.current =
+        new Audio(alertSound);
+
+      notificationAudio.current.preload =
+        "auto";
+
+    }
+
+    notificationAudio.current.volume = 1;
+
+    await notificationAudio.current.play();
+
+    notificationAudio.current.pause();
+
+    notificationAudio.current.currentTime = 0;
+
+    console.log("🔊 SOUND ENABLED");
+
+    soundEnabledRef.current = true;
+
+setSoundEnabled(true);
+setSoundError("");
+
+
+  } catch (error) {
+
+    console.log(
+      "Sound permission failed:",
+      error
+    );
+
+    alert(
+      "Please click the Enable Sound button again."
+    );
+
+  }
+
+};
+const playNotificationSound = () => {
+
+  console.log("🔔 PLAY NOTIFICATION SOUND");
+
+  if (!soundEnabledRef.current) {
+    console.log("🔇 Sound is not enabled yet.");
+    return;
+  }
+
+  const audio = notificationAudio.current;
+
+  if (!audio) {
+    console.log("❌ Audio object does not exist");
+    return;
+  }
+
+  audio.pause();
+  audio.currentTime = 0;
+  audio.volume = 1;
+  audio.muted = false;
+
+  const playPromise = audio.play();
+
+  if (playPromise !== undefined) {
+
+    playPromise
+      .then(() => {
+
+        console.log(
+          "✅ Notification sound playing"
+        );
+
+      })
+      .catch(error => {
+
+        console.error(
+          "❌ Audio playback failed:",
+          error
+        );
+
+      });
+
+  }
+
+};    const [selectedRoom, setSelectedRoom] =
     useState(null);
+
 
   const [showModal, setShowModal] =
     useState(false);
 
   const [roomSearch, setRoomSearch] =
     useState("");
+
+    const knownOrderIds = useRef(new Set());
+
+const firstFetch = useRef(true);
 
   const [showUsers,
   setShowUsers] =
@@ -293,31 +371,62 @@ useEffect(() => {
   activeResponse.data;
 
   
-
-if (
-
-  previousCount.current > 0 &&
-
-  newOrders.length >
-  previousCount.current
-
-) {
-
-  console.log(
-    "NEW ORDER ARRIVED 🔔"
+const currentOrderIds =
+  new Set(
+    newOrders.map(
+      order => order._id
+    )
   );
 
-  notificationAudio.current
-    .play()
-    .catch(err =>
-      console.log(err)
+
+// First API fetch
+if (firstFetch.current) {
+
+  knownOrderIds.current =
+    currentOrderIds;
+
+  firstFetch.current = false;
+
+  console.log(
+    "📋 Initial orders loaded"
+  );
+
+} else {
+
+  // Find orders that were not present before
+  const newlyArrivedOrders =
+    newOrders.filter(
+      order =>
+        !knownOrderIds.current.has(
+          order._id
+        )
     );
 
+
+  if (
+    newlyArrivedOrders.length > 0
+  ) {
+
+    console.log(
+      "🆕 NEW ORDER ARRIVED 🔔",
+      newlyArrivedOrders
+    );
+
+    console.log(
+      "🔊 SOUND ENABLED:",
+      soundEnabledRef.current
+    );
+
+    playNotificationSound();
+
+  }
+
+
+  // Update known orders
+  knownOrderIds.current =
+    currentOrderIds;
+
 }
-
-previousCount.current =
-  newOrders.length;
-
 setOrders(
   newOrders
 );
@@ -354,12 +463,13 @@ pendingOrders.forEach(
         ] !== mins
       ) {
 
-        const audio =
-          new Audio(
-            alertSound
-          );
+         console.log(
+      `⏰ ORDER ${order._id} HAS BEEN PENDING FOR ${mins} MINUTES`
+    );
 
-        audio.play();
+
+        playNotificationSound();
+
 
         alertedRooms.current[
           order._id
@@ -885,6 +995,48 @@ const totalOrders =
   </h1>
 
   <InstallButton />
+
+  {!soundEnabled ? (
+
+  <button
+    onClick={enableSound}
+    className="
+      mt-2
+      bg-orange-500
+      hover:bg-orange-600
+      text-white
+      px-4
+      py-2
+      rounded-xl
+      font-bold
+      shadow
+      transition
+    "
+  >
+
+    🔔 Enable Sound
+
+  </button>
+
+) : (
+
+  <div
+    className="
+      mt-2
+      bg-green-100
+      text-green-700
+      px-4
+      py-2
+      rounded-xl
+      font-bold
+    "
+  >
+
+    🔊 Sound Enabled
+
+  </div>
+
+)}
 
   <p className="text-gray-500 font-bold">
 

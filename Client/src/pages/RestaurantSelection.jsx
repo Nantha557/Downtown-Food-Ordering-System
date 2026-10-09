@@ -155,7 +155,7 @@ function RestaurantSelection() {
               "
             >
               <p className="text-[10px] sm:text-[11px] font-semibold text-gray-800 break-words">
-                📞 Extension: 300
+                ☎ Extension: 300
               </p>
 
               <a
@@ -169,7 +169,7 @@ function RestaurantSelection() {
                   break-words
                 "
               >
-                ☎ +91 755 005 5488
+                📞 +91 755 005 5488
               </a>
             </div>
           </div>
@@ -237,7 +237,7 @@ function RestaurantSelection() {
               "
             >
               <p className="text-[10px] sm:text-[11px] font-semibold text-gray-800 break-words">
-                📞 Extension: 700
+                ☎ Extension: 700
               </p>
 
               <a
@@ -251,7 +251,7 @@ function RestaurantSelection() {
                   break-words
                 "
               >
-                ☎ +91 755 005 5015
+                📞 +91 755 005 5015
               </a>
             </div>
           </div>

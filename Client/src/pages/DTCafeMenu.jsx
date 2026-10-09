@@ -19,6 +19,9 @@ function DTCafeMenu() {
   const sectionRefs =
     useRef({});
 
+
+    const [showContact, setShowContact] = useState(false);
+
 const location =
   useLocation();
 
@@ -444,6 +447,7 @@ const decreaseQuantity = (foodId) => {
 
 <div className="min-h-screen bg-[#f7f5f2] pb-28">
 
+{/* Header */}
 <div
   className="
     fixed
@@ -459,8 +463,11 @@ const decreaseQuantity = (foodId) => {
 >
   <div className="relative flex items-center justify-center">
 
+    {/* Back Button */}
     <button
+      type="button"
       onClick={() => navigate(-1)}
+      aria-label="Go back"
       className="
         absolute
         left-0
@@ -471,6 +478,7 @@ const decreaseQuantity = (foodId) => {
       ←
     </button>
 
+    {/* DT Cafe Logo */}
     <div className="text-center">
       <img
         src="/DT Cafe Logo White.png"
@@ -487,6 +495,111 @@ const decreaseQuantity = (foodId) => {
         Freshly Made Warmly Served
       </p>
     </div>
+
+    {/* Contact Icon */}
+    <button
+      type="button"
+      onClick={() => setShowContact((prev) => !prev)}
+      aria-label="Show DT Cafe contact details"
+      aria-expanded={showContact}
+      className="
+        absolute
+        right-0
+        w-9
+        h-9
+        flex
+        items-center
+        justify-center
+        rounded-full
+        bg-white/20
+        hover:bg-white/30
+        text-white
+        text-xl
+        transition
+      "
+    >
+      <span aria-hidden="true">☎</span>
+    </button>
+
+    {/* Contact Popup */}
+    {showContact && (
+      <div
+        className="
+          absolute
+          right-0
+          top-full
+          mt-3
+          w-60
+          max-w-[calc(100vw-2rem)]
+          bg-white
+          rounded-2xl
+          shadow-xl
+          border
+          border-[#C89563]/20
+          p-4
+          text-gray-800
+          text-left
+          z-[60]
+        "
+      >
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-bold text-[#A66D36]">
+            DT Cafe Contact
+          </h3>
+
+          <button
+            type="button"
+            onClick={() => setShowContact(false)}
+            aria-label="Close contact details"
+            className="
+              text-gray-500
+              hover:text-gray-800
+              text-xl
+              px-1
+            "
+          >
+            ×
+          </button>
+        </div>
+
+        {/* Extension */}
+        <div className="flex items-center gap-2 mb-3">
+          <span aria-hidden="true">☎</span>
+
+          <div>
+            <p className="text-xs text-gray-500">
+              Room Extension
+            </p>
+            <p className="font-semibold">700</p>
+          </div>
+        </div>
+
+        {/* Mobile Number */}
+        <div className="flex items-center gap-2">
+          <span aria-hidden="true">📱</span>
+
+          <div className="min-w-0">
+            <p className="text-xs text-gray-500">
+              Mobile Number
+            </p>
+
+            <a
+              href="tel:+917550055015"
+              className="
+                block
+                font-semibold
+                text-sm
+                text-[#A66D36]
+                hover:underline
+                break-words
+              "
+            >
+              +91 755 005 5015
+            </a>
+          </div>
+        </div>
+      </div>
+    )}
 
   </div>
 </div>

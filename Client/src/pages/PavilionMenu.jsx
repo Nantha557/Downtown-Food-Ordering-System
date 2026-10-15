@@ -13,6 +13,8 @@ function GuestMenu() {
   const [search, setSearch] =
   useState("");
 
+  const [showMenu, setShowMenu] = useState(false);
+
   const sectionRefs =
     useRef({});
 
@@ -20,12 +22,19 @@ function GuestMenu() {
 
   const [showContact, setShowContact] = useState(false);
 
+  const [selectedMeal, setSelectedMeal] = useState("");
+
 
   const navigate = useNavigate();
 
   const [activeCategory,
   setActiveCategory] =
   useState("");
+
+  const [currentMinutes, setCurrentMinutes] = useState(() => {
+  const now = new Date();
+  return now.getHours() * 60 + now.getMinutes();
+});
 
   const categories = [
 
@@ -53,12 +62,38 @@ useEffect(() => {
 
 }, [foods]);
 
+useEffect(() => {
+  const updateTime = () => {
+    const now = new Date();
+    setCurrentMinutes(
+      now.getHours() * 60 + now.getMinutes()
+    );
+  };
+
+  const interval = setInterval(updateTime, 30000);
+
+  return () => clearInterval(interval);
+}, []);
+
 
  useEffect(() => {
 
   fetchFoods();
 
 }, []);
+
+
+const isOrderingOpen =
+  (selectedMeal === "breakfast" &&
+    currentMinutes >= 420 &&
+    currentMinutes < 600) ||
+  (selectedMeal === "lunch" &&
+    currentMinutes >= 780 &&
+    currentMinutes < 900) ||
+  (selectedMeal === "dinner" &&
+    currentMinutes >= 1140 &&
+    currentMinutes < 1320);
+
 
 useEffect(() => {
 
@@ -117,38 +152,60 @@ useEffect(() => {
 
 }, [foods]);
 
-  const fetchFoods = async () => {
-
+  
+const fetchFoods = async () => {
   try {
-
     setLoading(true);
 
-    const response =
-      await API.get(
-        "/foods?restaurant=Pavilion"
-      );
+    const now = new Date();
+    const currentMinutes =
+      now.getHours() * 60 + now.getMinutes();
 
-    setFoods(
+    let meal;
 
-      response.data.filter(
-        (food) =>
-          food.available
-      )
+    // Breakfast: 7:00 AM - 10:00 AM
+    if (currentMinutes >= 420 && currentMinutes < 600) {
+      meal = "breakfast";
+    }
+    // Lunch: 1:00 PM - 3:00 PM
+    else if (currentMinutes >= 780 && currentMinutes < 900) {
+      meal = "lunch";
+    }
+    // Dinner: 7:00 PM - 10:00 PM
+    else if (currentMinutes >= 1140 && currentMinutes < 1320) {
+      meal = "dinner";
+    }
+    // Before breakfast or after dinner
+    else if (currentMinutes < 420 || currentMinutes >= 1320) {
+      meal = "breakfast";
+    }
+    // After breakfast, before lunch
+    else if (currentMinutes < 780) {
+      meal = "lunch";
+    }
+    // After lunch, before dinner
+    else {
+      meal = "dinner";
+    }
 
+    setSelectedMeal(meal);
+
+    
+
+    const response = await API.get(
+      `/foods?restaurant=Pavilion&meal=${meal}`
     );
 
+    setFoods(
+      response.data.filter((food) => food.available)
+    );
   } catch (error) {
-
-    console.log(error);
-
+    console.log("Error fetching Pavilion menu:", error);
   } finally {
-
     setLoading(false);
-
   }
-
 };
-  
+
 
   const addToCart = (food) => {
 
@@ -355,61 +412,6 @@ const decreaseQuantity = (foodId) => {
 
 }
 
-    if (foods.length === 0) {
-
-  return (
-
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-
-      <div className="bg-white rounded-3xl shadow-xl p-10 text-center max-w-lg">
-
-        <h1 className="text-4xl mb-4">
-          🍽️
-        </h1>
-
-        <h2 className="text-2xl font-bold">
-
-          Restaurant Closed
-
-        </h2>
-
-        <p className="text-gray-500 mt-3">
-
-          Room service is currently unavailable.
-
-        </p>
-
-        <div className="mt-6 text-left text-gray-700">
-
-          <p>
-            🌅 Breakfast :
-            7:00 AM - 10:00 AM
-          </p>
-
-          <p>
-            🍛 Lunch :
-            1:00 PM - 3:00 PM
-          </p>
-
-          <p>
-            🌙 Dinner :
-            7:00 PM - 10:00 PM
-          </p>
-
-          <p>
-            ☕ DT Café :
-            11:00 AM - 11:00 PM
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  );
-
-}
 
  return (
 
@@ -992,34 +994,35 @@ rounded-full
 (
 
 <button
+  type="button"
+  onClick={() => {
+    if (!isOrderingOpen) {
+      alert(
+        "Room service is currently unavailable. Please check the room service timings."
+      );
+      return;
+    }
 
-onClick={()=>
-
-addToCart(food)
-
-}
-
-className="
-
-bg-[#C89563]
-
-hover:bg-[#b47f4b]
-
-text-white
-
-px-4
-
-py-2
-
-rounded-xl
-
-"
-
+    addToCart(food);
+  }}
+  aria-disabled={!isOrderingOpen}
+  className={`
+    bg-[#C89563]
+    text-white
+    px-4
+    py-2
+    rounded-xl
+    transition
+    ${
+      isOrderingOpen
+        ? "hover:bg-[#b47f4b]"
+        : "opacity-50 cursor-not-allowed"
+    }
+  `}
 >
-
-Add
-
+  Add
 </button>
+
 
 )
 

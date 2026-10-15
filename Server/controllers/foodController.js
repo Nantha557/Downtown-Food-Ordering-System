@@ -1,266 +1,173 @@
+
 const Food = require("../models/Food");
 
 const getFoods = async (req, res) => {
-
   try {
+    const { restaurant } = req.query;
+    const meal = req.query.meal?.toLowerCase();
 
+    const query = {
+      available: true,
+    };
+
+    if (restaurant) {
+      query.restaurant = restaurant;
+    }
+
+    // Fetch a requested meal menu regardless of current time.
+    if (meal) {
+      if (meal === "all") {
+        // No meal filter: return all available foods.
+      } else if (
+        ["breakfast", "lunch", "dinner"].includes(meal)
+      ) {
+        query.$or = [
+          { [meal]: true },
+          { allTime: true },
+        ];
+      } else {
+        return res.status(400).json({
+          message:
+            "Invalid meal. Use breakfast, lunch, dinner, or all.",
+        });
+      }
+
+      const foods = await Food.find(query);
+      return res.json(foods);
+    }
+
+    // Preserve existing time-based behavior for old requests.
     const indiaTime = new Date(
-  new Date().toLocaleString(
-    "en-US",
-    {
-      timeZone: "Asia/Kolkata",
-    }
-  )
-);
+      new Date().toLocaleString("en-US", {
+        timeZone: "Asia/Kolkata",
+      })
+    );
 
-const currentTime =
-  indiaTime.getHours() * 60 +
-  indiaTime.getMinutes();
+    const currentTime =
+      indiaTime.getHours() * 60 +
+      indiaTime.getMinutes();
 
-    let filter = {};
+    let timeFilter = {};
 
-    // Breakfast
-    if (
-      currentTime >= 420 &&
-      currentTime < 600
-    ) {
-
-      filter = {
-        breakfast: true,
-      };
-
-    }
-
-    // Lunch + All Time
-    else if (
+    if (currentTime >= 420 && currentTime < 600) {
+      timeFilter = { breakfast: true };
+    } else if (
       currentTime >= 780 &&
       currentTime < 900
     ) {
-
-      filter = {
-        $or: [
-          { lunch: true },
-          { allTime: true },
-        ],
+      timeFilter = {
+        $or: [{ lunch: true }, { allTime: true }],
       };
-
-    }
-
-    // Dinner + All Time
-    else if (
+    } else if (
       currentTime >= 1140 &&
-      currentTime < 1320
+      currentTime < 1350
     ) {
-
-      filter = {
-        $or: [
-          { dinner: true },
-          { allTime: true },
-        ],
+      timeFilter = {
+        $or: [{ dinner: true }, { allTime: true }],
       };
-
-    }
-
-    // All Time only (11 AM - 1 PM)
-    else if (
-      currentTime >= 660 &&
-      currentTime < 780
+    } else if (
+      (currentTime >= 660 && currentTime < 780) ||
+      (currentTime >= 900 && currentTime < 1140) ||
+      (currentTime >= 1350 && currentTime < 1380)
     ) {
-
-      filter = {
-        allTime: true,
-      };
-
-    }
-
-    // All Time only (3 PM - 7 PM)
-    else if (
-      currentTime >= 900 &&
-      currentTime < 1140
-    ) {
-
-      filter = {
-        allTime: true,
-      };
-
-    }
-
-    // All Time only (10 PM - 11 PM)
-    else if (
-      currentTime >= 1320 &&
-      currentTime < 1380
-    ) {
-
-      filter = {
-        allTime: true,
-      };
-
-    }
-
-    // Restaurant Closed
-    else {
-
+      timeFilter = { allTime: true };
+    } else {
       return res.json([]);
-
     }
 
-const restaurant =
-  req.query.restaurant;
-
-const query = {
-
-  available: true,
-
-  ...filter,
-
-};
-
-if (restaurant) {
-
-  query.restaurant =
-    restaurant;
-
-}
-
-const foods =
-  await Food.find(query);
-
-    res.json(foods);
-
-  }
-
-  catch (error) {
-
-    console.log(error);
-
-    res.status(500).json({
-
-      message:
-        "Failed to fetch foods",
-
+    const foods = await Food.find({
+      ...query,
+      ...timeFilter,
     });
 
-  }
+    return res.json(foods);
+  } catch (error) {
+    console.error("Failed to fetch foods:", error);
 
+    return res.status(500).json({
+      message: "Failed to fetch foods",
+    });
+  }
 };
 
 const addFood = async (req, res) => {
-
   try {
-
-    const food = await Food.create(
-      req.body
-    );
-
+    const food = await Food.create(req.body);
     res.status(201).json(food);
-
   } catch (error) {
-
+    console.error(error);
     res.status(500).json({
       message: "Failed to add food",
     });
-
   }
-
 };
 
-const deleteFood = async (
-  req,
-  res
-) => {
-
+const deleteFood = async (req, res) => {
   try {
+    await Food.findByIdAndDelete(req.params.id);
 
-    await Food.findByIdAndDelete(
-      req.params.id
-    );
-
-    res.json({
-      message: "Food deleted",
-    });
-
+    res.json({ message: "Food deleted" });
   } catch (error) {
-
     res.status(500).json({
       message: "Delete failed",
     });
-
   }
-
 };
-const toggleAvailability =
-  async (req, res) => {
 
-    try {
+const toggleAvailability = async (req, res) => {
+  try {
+    const food = await Food.findById(req.params.id);
 
-      const food =
-        await Food.findById(
-          req.params.id
-        );
-
-      food.available =
-        !food.available;
-
-      await food.save();
-
-      res.json(food);
-
-    } catch (error) {
-
-      res.status(500).json({
-        message:
-          "Failed to update availability",
+    if (!food) {
+      return res.status(404).json({
+        message: "Food not found",
       });
-
     }
 
+    food.available = !food.available;
+    await food.save();
+
+    res.json(food);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to update availability",
+    });
+  }
 };
 
 const updateFood = async (req, res) => {
-
   try {
+    const food = await Food.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
 
-    const food =
-      await Food.findByIdAndUpdate(
-
-        req.params.id,
-
-        req.body,
-
-        {
-          new: true,
-        }
-
-      );
+    if (!food) {
+      return res.status(404).json({
+        message: "Food not found",
+      });
+    }
 
     res.json(food);
-
   } catch (error) {
-
     res.status(500).json({
       message: "Update failed",
     });
-
   }
-
 };
+
 const getAllFoods = async (req, res) => {
-
   try {
-
     const foods = await Food.find();
-
     res.json(foods);
-
   } catch (error) {
-
     res.status(500).json({
       message: "Failed to fetch foods",
     });
-
   }
-
 };
+
 module.exports = {
   getFoods,
   addFood,

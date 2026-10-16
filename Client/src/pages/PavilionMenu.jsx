@@ -996,12 +996,22 @@ rounded-full
 <button
   type="button"
   onClick={() => {
-    if (!isOrderingOpen) {
-      alert(
-        "Room service is currently unavailable. Please check the room service timings."
-      );
-      return;
-    }
+    
+if (!isOrderingOpen) {
+  const nextOpening =
+    selectedMeal === "breakfast"
+      ? "7:00 AM"
+      : selectedMeal === "lunch"
+      ? "1:00 PM"
+      : "7:00 PM";
+
+  alert(
+    `Room service is currently unavailable. Please come back at ${nextOpening}.`
+  );
+
+  return;
+}
+
 
     addToCart(food);
   }}

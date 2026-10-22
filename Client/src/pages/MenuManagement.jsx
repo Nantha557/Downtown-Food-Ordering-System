@@ -36,41 +36,42 @@ useState(false);
   const [search, setSearch] =  useState("");
 
 
-  const categories = [
-
+const pavilionCategories = [
   "Breakfast",
-
-  "Soups Veg",
-  "Soups Non Veg",
-
-  "Tandoori Veg",
-  "Tandoori Non Veg",
-
-  "Veg Starters",
-  "Non Veg Starters",
-
-  "Egg Starters",
-
+  "Soups",
+  "Tandoori",
+  "Starters",
   "Acompaniments",
-
-  "Indian Gravy Veg",
-  "Indian Gravy Non-Veg",
-
-  "Chinese Gravy Veg",
-  "Chinese Gravy Non Veg",
-
-  "Rice & Noodles Veg",
-  "Rice & Noodles Non Veg",
-
+  "Indian Gravy",
+  "Chinese Gravy",
+  "Rice & Noodles",
   "Indian Breads",
-
-  "Desserts",
-
-  "Choice Lassi",
-
-  "Choice of Milkshakes",
-
+  "Desserts And Beverages",
 ];
+
+  // Starter list for DT Café. Replace with the exact café menu categories if needed.
+const cafeCategories = [
+  "Small Plates",
+  "Pizza",
+  "Sandwich",
+  "Pasta",
+  "Waffle",
+  "Keto Sandwich",
+  "Burger",
+  "Tacos",
+  "French Fries",
+  "Wraps",
+  "Quesadilla",
+  "Croissant",
+  "Dessert",
+  "Fresh Juice",
+  "Smoothies",
+  "Coffee & Tea",
+  "Cakes",
+];
+  const categories = restaurant === "Pavilion"
+    ? pavilionCategories
+    : cafeCategories;
 
   const fetchFoods = async () => {
 
@@ -123,6 +124,15 @@ useState(false);
   }, []);
 
   
+const handleRestaurantChange = (nextRestaurant) => {
+  setRestaurant(nextRestaurant);
+  setCategory(nextRestaurant === "Pavilion" ? "Breakfast" : "Tea & Coffee");
+  setBreakfast(false);
+  setLunch(false);
+  setDinner(false);
+  setAllTime(false);
+};
+
 const addFood = async () => {
   const trimmedName = name.trim();
   const numericPrice = Number(price);
@@ -137,16 +147,26 @@ const addFood = async () => {
     return;
   }
 
+  if (restaurant === "Pavilion" && !breakfast && !lunch && !dinner) {
+    alert("Please select at least one Pavilion meal time.");
+    return;
+  }
+
+  if (restaurant === "DT Cafe" && !allTime) {
+    alert("Please select Café Time (11 AM – 11 PM).");
+    return;
+  }
+
   const foodData = {
     restaurant,
     name: trimmedName,
     category,
     price: numericPrice,
     type,
-    breakfast,
-    lunch,
-    dinner,
-    allTime,
+    breakfast: restaurant === "Pavilion" ? breakfast : false,
+    lunch: restaurant === "Pavilion" ? lunch : false,
+    dinner: restaurant === "Pavilion" ? dinner : false,
+    allTime: restaurant === "DT Cafe" ? allTime : false,
   };
 
   try {
@@ -156,7 +176,7 @@ const addFood = async () => {
 
     setName("");
     setPrice("");
-    setCategory("Breakfast");
+    setCategory(restaurant === "Pavilion" ? "Breakfast" : "Tea & Coffee");
     setType("Veg");
     setBreakfast(false);
     setLunch(false);
@@ -203,77 +223,71 @@ const addFood = async () => {
   };
 
   const editFood = (food) => {
-
-  setEditingFood(food);
-
-  setName(food.name);
-
-  setCategory(
-    food.category
-  );
-
-  setPrice(food.price);
-
-  setType(food.type);
-  setBreakfast(
-  food.breakfast
-);
-
-setLunch(
-  food.lunch
-);
-
-setDinner(
-  food.dinner
-);
-
-setAllTime(
-  food.allTime
-);
-
-};
+    setEditingFood(food);
+    setName(food.name);
+    setCategory(food.category);
+    setPrice(String(food.price));
+    setType(food.type);
+    setBreakfast(Boolean(food.breakfast));
+    setLunch(Boolean(food.lunch));
+    setDinner(Boolean(food.dinner));
+    setAllTime(Boolean(food.allTime));
+    setShowEditModal(true);
+  };
 
 const updateFood = async () => {
+  if (!editingFood) return;
+
+  const trimmedName = name.trim();
+  const numericPrice = Number(price);
+  const isPavilion = editingFood.restaurant === "Pavilion";
+
+  if (!trimmedName || price.trim() === "") {
+    alert("Please enter the dish name and price.");
+    return;
+  }
+
+  if (!Number.isFinite(numericPrice) || numericPrice <= 0) {
+    alert("Please enter a valid price greater than zero.");
+    return;
+  }
+
+  if (isPavilion && !breakfast && !lunch && !dinner) {
+    alert("Please select at least one Pavilion meal time.");
+    return;
+  }
+
+  if (!isPavilion && !allTime) {
+    alert("Please select Café Time (11 AM – 11 PM).");
+    return;
+  }
 
   try {
-
-    await API.put(
-
-      `/foods/${editingFood._id}`,
-
-      {
-
-        name,
-        category,
-        price,
-        type,
-         breakfast,
-
-  lunch,
-
-  dinner,
-
-  allTime,
-      }
-
-    );
+    await API.put(`/foods/${editingFood._id}`, {
+      name: trimmedName,
+      category,
+      price: numericPrice,
+      type,
+      breakfast: isPavilion ? breakfast : false,
+      lunch: isPavilion ? lunch : false,
+      dinner: isPavilion ? dinner : false,
+      allTime: isPavilion ? false : allTime,
+    });
 
     setEditingFood(null);
-
+    setShowEditModal(false);
     setName("");
     setPrice("");
-    
-
-    fetchFoods();
-
+    setBreakfast(false);
+    setLunch(false);
+    setDinner(false);
+    setAllTime(false);
+    await fetchFoods();
+    alert("Dish updated successfully!");
+  } catch (error) {
+    console.error("Failed to update food:", error.response?.data || error);
+    alert(error.response?.data?.message || "Failed to update dish. Please try again.");
   }
-
-  catch(error){
-
-    console.log(error);
-
-  }
-
 };
 
   return (
@@ -373,7 +387,7 @@ mb-8
 
 <select
   value={restaurant}
-  onChange={(e) => setRestaurant(e.target.value)}
+  onChange={(e) => handleRestaurantChange(e.target.value)}
   className="border rounded-xl px-4 py-3 w-full"
 >
   <option value="Pavilion">Pavilion</option>
@@ -440,87 +454,38 @@ mb-8
   className="border rounded-xl px-4 py-3"
 />
 <div className="grid grid-cols-2 gap-4">
-
-<label className="flex items-center gap-2">
-
-<input
-type="checkbox"
-checked={breakfast}
-onChange={(e)=>
-setBreakfast(e.target.checked)}
-/>
-
-Breakfast
-
-</label>
-
-<label className="flex items-center gap-2">
-
-<input
-type="checkbox"
-checked={lunch}
-onChange={(e)=>
-setLunch(e.target.checked)}
-/>
-
-Lunch
-
-</label>
-
-<label className="flex items-center gap-2">
-
-<input
-type="checkbox"
-checked={dinner}
-onChange={(e)=>
-setDinner(e.target.checked)}
-/>
-
-Dinner
-
-</label>
-
-
-{restaurant === "DT Cafe" && (
-  <label className="flex items-center gap-2">
-    <input
-      type="checkbox"
-      checked={allTime}
-      onChange={(e) => setAllTime(e.target.checked)}
-    />
-    Café Time (11 AM – 11 PM)
-  </label>
-)}
-
-
-
+  {restaurant === "Pavilion" ? (
+    <>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={breakfast}
+          onChange={(e) => setBreakfast(e.target.checked)} />
+        Breakfast
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={lunch}
+          onChange={(e) => setLunch(e.target.checked)} />
+        Lunch
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={dinner}
+          onChange={(e) => setDinner(e.target.checked)} />
+        Dinner
+      </label>
+    </>
+  ) : (
+    <label className="flex items-center gap-2">
+      <input type="checkbox" checked={allTime}
+        onChange={(e) => setAllTime(e.target.checked)} />
+      Café Time (11 AM – 11 PM)
+    </label>
+  )}
 </div>
-            <button
 
-  onClick={
-    editingFood
-
-      ? updateFood
-
-      : addFood
-  }
-
-  className="
-  bg-green-600
-  text-white
-  rounded-xl
-  "
-
+<button
+  onClick={addFood}
+  className="bg-green-600 text-white rounded-xl px-4 py-3"
 >
-
-  {
-    editingFood
-
-      ? "Update Food"
-
-      : "Add Food"
-  }
-
+  Add Food
 </button>
 
           </div>
@@ -594,25 +559,7 @@ Dinner
 
       <button
 
-  onClick={() => {
-
-  setEditingFood(food);
-
-  setName(food.name);
-
-  setCategory(
-    food.category
-  );
-
-  setPrice(food.price);
-
-  setType(food.type);
-
-  setShowEditModal(
-    true
-  );
-
-}}
+  onClick={() => editFood(food)}
 
   className="
   bg-blue-500
@@ -744,7 +691,7 @@ Edit Food
   "
 >
 
-{categories.map(cat => (
+{(editingFood?.restaurant === "Pavilion" ? pavilionCategories : cafeCategories).map(cat => (
 
 <option
   key={cat}
@@ -802,51 +749,31 @@ Edit Food
   "
 />
 <div className="grid grid-cols-2 gap-4">
-
-  <label className="flex items-center gap-2">
-    <input
-      type="checkbox"
-      checked={breakfast}
-      onChange={(e) =>
-        setBreakfast(e.target.checked)
-      }
-    />
-    Breakfast
-  </label>
-
-  <label className="flex items-center gap-2">
-    <input
-      type="checkbox"
-      checked={lunch}
-      onChange={(e) =>
-        setLunch(e.target.checked)
-      }
-    />
-    Lunch
-  </label>
-
-  <label className="flex items-center gap-2">
-    <input
-      type="checkbox"
-      checked={dinner}
-      onChange={(e) =>
-        setDinner(e.target.checked)
-      }
-    />
-    Dinner
-  </label>
-
-  <label className="flex items-center gap-2">
-    <input
-      type="checkbox"
-      checked={allTime}
-      onChange={(e) =>
-        setAllTime(e.target.checked)
-      }
-    />
-    All Time
-  </label>
-
+  {editingFood?.restaurant === "Pavilion" ? (
+    <>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={breakfast}
+          onChange={(e) => setBreakfast(e.target.checked)} />
+        Breakfast
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={lunch}
+          onChange={(e) => setLunch(e.target.checked)} />
+        Lunch
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={dinner}
+          onChange={(e) => setDinner(e.target.checked)} />
+        Dinner
+      </label>
+    </>
+  ) : (
+    <label className="flex items-center gap-2">
+      <input type="checkbox" checked={allTime}
+        onChange={(e) => setAllTime(e.target.checked)} />
+      Café Time (11 AM – 11 PM)
+    </label>
+  )}
 </div>
 </div>
 
@@ -864,11 +791,10 @@ mt-6
 
 <button
 
-  onClick={() =>
-    setShowEditModal(
-      false
-    )
-  }
+  onClick={() => {
+    setShowEditModal(false);
+    setEditingFood(null);
+  }}
 
   className="
   px-5
@@ -885,15 +811,7 @@ Cancel
 
 <button
 
-  onClick={async () => {
-
-    await updateFood();
-
-    setShowEditModal(
-      false
-    );
-
-  }}
+  onClick={updateFood}
 
   className="
   px-5

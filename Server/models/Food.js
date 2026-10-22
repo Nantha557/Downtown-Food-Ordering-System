@@ -52,6 +52,10 @@ allTime: {
   default: false,
 },
 
+isNew: {
+  type: Boolean,
+  default: false,
+},
 });
 
 module.exports =

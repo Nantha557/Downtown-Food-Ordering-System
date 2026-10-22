@@ -29,6 +29,8 @@ useState(false);
 const [allTime, setAllTime] =
 useState(false);
 
+const [isNew, setIsNew] = useState(false);
+
   const [showEditModal,setShowEditModal] =useState(false);
 
   const [editingFood, setEditingFood] = useState(null);
@@ -232,7 +234,9 @@ const addFood = async () => {
     setLunch(Boolean(food.lunch));
     setDinner(Boolean(food.dinner));
     setAllTime(Boolean(food.allTime));
+    setIsNew(Boolean(food.isNew)); 
     setShowEditModal(true);
+    
   };
 
 const updateFood = async () => {
@@ -272,6 +276,7 @@ const updateFood = async () => {
       lunch: isPavilion ? lunch : false,
       dinner: isPavilion ? dinner : false,
       allTime: isPavilion ? false : allTime,
+      isNew,
     });
 
     setEditingFood(null);
@@ -282,6 +287,7 @@ const updateFood = async () => {
     setLunch(false);
     setDinner(false);
     setAllTime(false);
+    setIsNew(false);
     await fetchFoods();
     alert("Dish updated successfully!");
   } catch (error) {
@@ -775,6 +781,23 @@ Edit Food
     </label>
   )}
 </div>
+<label className="flex items-center justify-between gap-3 rounded-xl border border-gray-200 p-3">
+  <span>
+    <span className="block font-semibold text-gray-800">
+      Mark as New
+    </span>
+    <span className="block text-sm text-gray-500">
+      Show a NEW badge to customers
+    </span>
+  </span>
+
+  <input
+    type="checkbox"
+    checked={isNew}
+    onChange={(e) => setIsNew(e.target.checked)}
+    className="h-5 w-5 accent-red-600"
+  />
+</label>
 </div>
 
 <div className="
@@ -792,6 +815,7 @@ mt-6
 <button
 
   onClick={() => {
+    setIsNew(false);
     setShowEditModal(false);
     setEditingFood(null);
   }}

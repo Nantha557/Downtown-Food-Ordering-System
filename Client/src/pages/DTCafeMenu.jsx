@@ -859,18 +859,19 @@ text-[#C89563]
 {food.isNew && (
   <span
     className="
-      inline-flex items-center gap-1
+      inline-flex items-center justify-center
       rounded-full
-      bg-red-600
+      bg-yellow-300
       px-3 py-1
-      text-xs font-extrabold tracking-widest
-      text-white
-      shadow-[0_0_12px_rgba(239,68,68,0.75)]
-      ring-2 ring-red-300
-      animate-pulse
+      text-sm font-black italic
+      tracking-tight
+      text-red-600
+      shadow-md
+      ring-1 ring-yellow-400
+      animate-[newFlash_0.45s_steps(2,end)_infinite]
     "
   >
-    🔥 NEW
+    🔥NEW
   </span>
 )}
 </h3>

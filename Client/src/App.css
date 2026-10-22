@@ -182,3 +182,18 @@
     border-right-color: var(--border);
   }
 }
+@keyframes newFlash {
+  0%, 100% {
+    opacity: 1;
+    background-color: #fde047;
+    color: #dc2626;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    background-color: #dc2626;
+    color: #fde047;
+    transform: scale(1.06);
+  }
+}

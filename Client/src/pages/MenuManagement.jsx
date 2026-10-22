@@ -6,6 +6,8 @@ function MenuManagement() {
 
   const [foods, setFoods] = useState([]);
 
+  const [restaurant, setRestaurant] = useState("Pavilion");
+
   const [name, setName] = useState("");
 
   const [category, setCategory] =
@@ -120,60 +122,60 @@ useState(false);
 
   }, []);
 
-  const addFood = async () => {
-    
+  
+const addFood = async () => {
+  const trimmedName = name.trim();
+  const numericPrice = Number(price);
 
-    if (!name || !price) {
+  if (!restaurant || !trimmedName || price.trim() === "") {
+    alert("Please fill in the restaurant, dish name, and price.");
+    return;
+  }
 
-      alert("Please fill all fields");
+  if (!Number.isFinite(numericPrice) || numericPrice <= 0) {
+    alert("Please enter a valid price greater than zero.");
+    return;
+  }
 
-      return;
-
-    }
-
-    try {
-
-      await API.post("/foods", {
-
-        name,
-
-        category,
-
-        price,
-
-        type,
-
-         breakfast,
-
-  lunch,
-
-  dinner,
-
-  allTime,
-
-      });
-
-      setName("");
-      setPrice("");
-      setCategory("Breakfast");
-      setType("Veg");
-      setBreakfast(false);
-
-setLunch(false);
-
-setDinner(false);
-
-setAllTime(false);
-
-      fetchFoods();
-
-    } catch (error) {
-
-      console.log(error);
-
-    }
-
+  const foodData = {
+    restaurant,
+    name: trimmedName,
+    category,
+    price: numericPrice,
+    type,
+    breakfast,
+    lunch,
+    dinner,
+    allTime,
   };
+
+  try {
+    const response = await API.post("/foods", foodData);
+
+    alert(`${response.data.name} added to ${response.data.restaurant}!`);
+
+    setName("");
+    setPrice("");
+    setCategory("Breakfast");
+    setType("Veg");
+    setBreakfast(false);
+    setLunch(false);
+    setDinner(false);
+    setAllTime(false);
+
+    await fetchFoods();
+  } catch (error) {
+    console.error(
+      "Failed to add food:",
+      error.response?.data || error
+    );
+
+    alert(
+      error.response?.data?.message ||
+      "Failed to add dish. Please try again."
+    );
+  }
+};
 
   const deleteFood = async (id) => {
 
@@ -357,7 +359,7 @@ mb-8
 
         <div className="bg-white rounded-3xl shadow-sm p-6 mb-8">
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
             <input
   placeholder="Search food..."
@@ -367,6 +369,17 @@ mb-8
   }
   className="border rounded-xl px-4 py-3 w-full"
 />
+
+
+<select
+  value={restaurant}
+  onChange={(e) => setRestaurant(e.target.value)}
+  className="border rounded-xl px-4 py-3 w-full"
+>
+  <option value="Pavilion">Pavilion</option>
+  <option value="DT Cafe">DT Café</option>
+</select>
+
 
             <input
               placeholder="Dish Name"
@@ -467,18 +480,19 @@ Dinner
 
 </label>
 
-<label className="flex items-center gap-2">
 
-<input
-type="checkbox"
-checked={allTime}
-onChange={(e)=>
-setAllTime(e.target.checked)}
-/>
+{restaurant === "DT Cafe" && (
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      checked={allTime}
+      onChange={(e) => setAllTime(e.target.checked)}
+    />
+    Café Time (11 AM – 11 PM)
+  </label>
+)}
 
-All Time
 
-</label>
 
 </div>
             <button

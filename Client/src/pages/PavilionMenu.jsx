@@ -827,7 +827,7 @@ text-[#C89563]
 <h3 className="flex flex-wrap items-center gap-2 text-lg font-semibold">
   {food.name}
 
-{food.isNewDish && (
+{food.isNew && (
   <span
     className="
       inline-flex items-center gap-1

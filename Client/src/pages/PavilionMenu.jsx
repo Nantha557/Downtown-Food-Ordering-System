@@ -827,11 +827,23 @@ text-[#C89563]
 <h3 className="flex flex-wrap items-center gap-2 text-lg font-semibold">
   {food.name}
 
-  {food.isNew && (
-    <span className="inline-flex items-center rounded-full bg-red-600 px-2 py-0.5 text-[10px] font-bold tracking-wider text-white animate-pulse">
-      NEW
-    </span>
-  )}
+{food.isNewDish && (
+  <span
+    className="
+      inline-flex items-center gap-1
+      rounded-full
+      bg-red-600
+      px-3 py-1
+      text-xs font-extrabold tracking-widest
+      text-white
+      shadow-[0_0_12px_rgba(239,68,68,0.75)]
+      ring-2 ring-red-300
+      animate-pulse
+    "
+  >
+    🔥 NEW
+  </span>
+)}
 </h3>
 
 <div className="flex items-center gap-2 mt-1">

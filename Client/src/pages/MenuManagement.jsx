@@ -128,7 +128,11 @@ const cafeCategories = [
   
 const handleRestaurantChange = (nextRestaurant) => {
   setRestaurant(nextRestaurant);
-  setCategory(nextRestaurant === "Pavilion" ? "Breakfast" : "Tea & Coffee");
+ setCategory(
+  nextRestaurant === "Pavilion"
+    ? "Breakfast"
+    : cafeCategories[0]
+);
   setBreakfast(false);
   setLunch(false);
   setDinner(false);
@@ -178,7 +182,11 @@ const addFood = async () => {
 
     setName("");
     setPrice("");
-    setCategory(restaurant === "Pavilion" ? "Breakfast" : "Tea & Coffee");
+    setCategory(
+  restaurant === "Pavilion"
+    ? "Breakfast"
+    : cafeCategories[0]
+);
     setType("Veg");
     setBreakfast(false);
     setLunch(false);

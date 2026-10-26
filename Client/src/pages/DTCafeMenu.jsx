@@ -782,41 +782,22 @@ activeCategory===category
 
 categories.map(category=>{
 
-const categoryFoods=
-
-foods.filter(
-
-food=>
-
-food.category===category &&
-
-(
-
-food.name
-
-.toLowerCase()
-
-.includes(
-
-search.toLowerCase()
-
-)
-
-||
-
-food.category
-
-.toLowerCase()
-
-.includes(
-
-search.toLowerCase()
-
-)
-
-)
-
-);
+const categoryFoods = foods
+  .filter(
+    (food) =>
+      food.category === category &&
+      (
+        food.name
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        food.category
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      )
+  )
+  .sort(
+    (a, b) => Number(Boolean(b.isNew)) - Number(Boolean(a.isNew))
+  );
 
 if(categoryFoods.length===0)
 

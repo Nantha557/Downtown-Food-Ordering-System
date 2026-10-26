@@ -22,6 +22,19 @@ import img17 from "../assets/17.png";
 
 function DTCafeLanding() {
 
+  
+const smallPlatesHintStyle = `
+  @keyframes hintGlow {
+    0%, 100% {
+      opacity: 0.85;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+`;
+
+
 const navigate = useNavigate();
 const [loading, setLoading] = useState(true);
 
@@ -152,6 +165,7 @@ className="min-h-screen relative overflow-hidden"
 
 
 >
+  <style>{smallPlatesHintStyle}</style>
     
 <div
 className="
@@ -304,40 +318,47 @@ pb-6
 
 categories.map((item)=>(
 
+
 <div
-
-key={item.name}
-
-onClick={() =>
-
-navigate(
-
-"/dt-cafe/menu",
-
-{
-
-state:{
-
-category:item.name
-
-}
-
-}
-
-)
-
-}
-
-className="
-flex
-flex-col
-items-center
-cursor-pointer
-transition
-duration-300
-hover:scale-105
-"
+  key={item.name}
+  onClick={() =>
+    navigate("/dt-cafe/menu", {
+      state: { category: item.name }
+    })
+  }
+  className="relative flex flex-col items-center cursor-pointer transition duration-300 hover:scale-105"
 >
+  
+
+{item.name === "Small Plates" && (
+  <button
+    type="button"
+    onClick={(e) => {
+      e.stopPropagation();
+      navigate("/dt-cafe/menu", {
+        state: { category: "Small Plates" },
+      });
+    }}
+    className="absolute z-20 pointer-events-auto border-0 bg-transparent p-0 text-left"
+    style={{
+      width: "112px",
+      left: "24px",
+      top: "-24px",
+      animation: "hintGlow 1.8s ease-in-out infinite",
+    }}
+  >
+    <span className="block text-[10px] font-black tracking-wide text-[#9a5b24] whitespace-nowrap">
+      ✨ NEW DISHES
+    </span>
+
+    <span className="block text-[10px] font-semibold italic text-[#9a5b24]">
+      available here!
+    </span>
+
+  </button>
+)}
+
+
 
 <div
   className="

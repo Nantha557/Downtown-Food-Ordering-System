@@ -182,8 +182,9 @@
     border-right-color: var(--border);
   }
 }
-@keyframes newFlash {
-  0%, 100% {
+
+@keyframes badgeFlash {
+  0% {
     opacity: 1;
     background-color: #fde047;
     color: #dc2626;
@@ -191,9 +192,16 @@
   }
 
   50% {
-    opacity: 0.45;
+    opacity: 0.15;
     background-color: #dc2626;
     color: #fde047;
-    transform: scale(1.06);
+    transform: scale(1.12);
+  }
+
+  100% {
+    opacity: 1;
+    background-color: #fde047;
+    color: #dc2626;
+    transform: scale(1);
   }
 }

@@ -5,6 +5,31 @@ import { useLocation } from "react-router-dom";
 
 function DTCafeMenu() {
 
+  
+  
+const badgeFlashStyle = `
+  @keyframes badgeFlash {
+    0%, 100% {
+      opacity: 1;
+      background-color: #fff3d6;
+      color: #9a5b24;
+      border-color: #e8bd72;
+      box-shadow: 0 0 4px rgba(200, 149, 99, 0.25);
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 1;
+      background-color: #c89563;
+      color: #ffffff;
+      border-color: #a66d36;
+      box-shadow: 0 0 12px rgba(200, 149, 99, 0.65);
+      transform: scale(1.06);
+    }
+  }
+`;
+
+
   const [foods, setFoods] =
     useState([]);
 
@@ -445,7 +470,8 @@ const decreaseQuantity = (foodId) => {
 
  return (
 
-<div className="min-h-screen bg-[#f7f5f2] pb-28">
+<div className="min-h-screen bg-[#f7f5f2] pb-28" >
+  <style>{badgeFlashStyle}</style>
 
 {/* Header */}
 <div
@@ -857,22 +883,24 @@ text-[#C89563]
   {food.name}
 
 {food.isNew && (
-  <span
-    className="
-      inline-flex items-center justify-center
-      rounded-full
-      bg-yellow-300
-      px-3 py-1
-      text-sm font-black italic
-      tracking-tight
-      text-red-600
-      shadow-md
-      ring-1 ring-yellow-400
-      animate-[newFlash_0.45s_steps(2,end)_infinite]
-    "
-  >
-    🔥NEW
-  </span>
+  
+<span
+  style={{
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "4px 12px",
+  borderRadius: "9999px",
+  border: "1px solid #facc15",
+  fontSize: "14px",
+  fontWeight: 900,
+  fontStyle: "italic",
+  animation: "badgeFlash 0.5s ease-in-out infinite",
+}}
+>
+  🔥NEW
+</span>
+
 )}
 </h3>
 
